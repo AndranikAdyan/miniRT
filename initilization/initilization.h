@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
+/*   initilization.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 17:45:28 by aadyan            #+#    #+#             */
-/*   Updated: 2025/06/26 18:58:03 by aadyan           ###   ########.fr       */
+/*   Created: 2025/06/26 18:46:08 by aadyan            #+#    #+#             */
+/*   Updated: 2025/06/26 19:04:01 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#ifndef INITILIZATION_H
+# define INITILIZATION_H
 
-int	main(int argc, char **argv)
-{
-	t_mlx	*mlx;
+# include "miniRT.h"
 
-	mlx = init_mlx();
-	if (!mlx)
-		exit (12);
-	hooks(mlx);
-	mlx_loop(mlx->mlx);
-	(void)argc;
-	(void)argv;
-	return (0);
-}
+typedef struct s_mlx	t_mlx;
+
+t_mlx	*init_mlx(void);
+int		free_mlx(t_mlx *mlx);
+
+#endif

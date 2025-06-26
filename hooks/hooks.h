@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
+/*   hooks.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 17:45:28 by aadyan            #+#    #+#             */
-/*   Updated: 2025/06/26 18:58:03 by aadyan           ###   ########.fr       */
+/*   Created: 2025/06/26 18:55:38 by aadyan            #+#    #+#             */
+/*   Updated: 2025/06/26 19:06:54 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#ifndef HOOKS_H
+# define HOOKS_H
 
-int	main(int argc, char **argv)
-{
-	t_mlx	*mlx;
+typedef struct s_mlx	t_mlx;
 
-	mlx = init_mlx();
-	if (!mlx)
-		exit (12);
-	hooks(mlx);
-	mlx_loop(mlx->mlx);
-	(void)argc;
-	(void)argv;
-	return (0);
-}
+# include "miniRT.h"
+# include <X11/keysym.h>
+
+void	hooks(t_mlx *mlx);
+int		keys_handle(int keycode, t_mlx *mlx);
+
+#endif

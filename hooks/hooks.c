@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
+/*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 17:45:28 by aadyan            #+#    #+#             */
-/*   Updated: 2025/06/26 18:58:03 by aadyan           ###   ########.fr       */
+/*   Created: 2025/06/26 18:56:04 by aadyan            #+#    #+#             */
+/*   Updated: 2025/06/26 19:05:27 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "hooks.h"
 
-int	main(int argc, char **argv)
+void	hooks(t_mlx *mlx)
 {
-	t_mlx	*mlx;
+	mlx_hook(mlx->window, 2, 1L << 0, keys_handle, mlx);
+	mlx_hook(mlx->window, 17, 0, free_mlx, mlx);
+}
 
-	mlx = init_mlx();
-	if (!mlx)
-		exit (12);
-	hooks(mlx);
-	mlx_loop(mlx->mlx);
-	(void)argc;
-	(void)argv;
+int	keys_handle(int keycode, t_mlx *mlx)
+{
+	if (keycode == XK_Escape || keycode == XK_q)
+		free_mlx(mlx);
 	return (0);
 }

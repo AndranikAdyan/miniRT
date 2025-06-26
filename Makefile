@@ -16,13 +16,15 @@ MLX   = -L$(MLX_DIR) -lmlx -lm -lX11 -lXext
 
 SRC := $(shell find . -path "./$(LIBFT_DIR)" -prune -o -path "./$(MLX_DIR)" -prune -o -name "*.c" ! -name "test.c" -print)
 
-INCLUDES := -I$(LIBFT_DIR) $(shell find . -name "*.h" -exec dirname {} \; | sort -u | sed 's/^/-I/')
+INCLUDES := $(shell find . -name "*.h" -exec dirname {} \; | sed 's/^/-I/')
+
+HEADERS := $(shell find . -path './libs/minilibx-linux' -prune -o -name "*.h" -print)
 
 BUILD_DIR = build
 OBJ := $(patsubst ./%.c,$(BUILD_DIR)/%.o,$(SRC))
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
 
 all: build configure lib $(NAME)
 
@@ -30,7 +32,7 @@ $(NAME): $(OBJ) $(LIBFT_DIR)/libft.a $(MLX_DIR)/libmlx.a
 	@$(CC) $(FLAGS) $(INCLUDES) $(OBJ) -o $(NAME) $(LIBFT) $(MLX)
 	@echo "${YELLOW}MiniRT Done!${RESET}\n"
 
-$(BUILD_DIR)/%.o: %.c
+$(BUILD_DIR)/%.o: %.c $(HEADERS)
 	@mkdir -p $(dir $@)
 	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 	@echo "  ✅ ${GREEN}$<${RESET}"
