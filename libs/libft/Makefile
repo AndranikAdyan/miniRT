@@ -70,10 +70,10 @@ $(NAME):	$(OBJS)
 
 
 $(BUILD):
-		@mkdir -p $(BUILD)
+	@mkdir -p $(BUILD)
 
 clean:
-	@rm -rf $(OBJS)
+	@rm -rf $(BUILD)
 
 fclean:	clean
 	@rm -rf $(NAME)
