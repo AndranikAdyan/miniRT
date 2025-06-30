@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
+/*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 17:45:28 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/01 01:48:43 by saslanya         ###   ########.fr       */
+/*   Created: 2025/07/01 01:19:48 by saslanya          #+#    #+#             */
+/*   Updated: 2025/07/01 01:40:02 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
+#ifndef SCENE_H
+# define SCENE_H
 
-int	main(int argc, char **argv)
-{
-	if (argc != 2 || !is_valid_f(*(argv + 1)))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
+# include <fcntl.h>
+# include <stdbool.h>
+# include "libft.h"
+# include "get_next_line.h"
+
+# define FFORMAT ".rt"
+# define FSIZE 4
+
+bool	is_valid_f(const char *fname);
+
+#endif

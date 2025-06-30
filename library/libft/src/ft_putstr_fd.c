@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 17:45:28 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/01 01:48:43 by saslanya         ###   ########.fr       */
+/*   Created: 2025/01/19 15:51:24 by saslanya          #+#    #+#             */
+/*   Updated: 2025/01/21 23:21:49 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+void	ft_putstr_fd(char *s, int fd)
 {
-	if (argc != 2 || !is_valid_f(*(argv + 1)))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	if (s && fd > 0)
+		write(fd, s, ft_strlen(s));
 }

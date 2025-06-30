@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
+/*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 17:45:28 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/01 01:48:43 by saslanya         ###   ########.fr       */
+/*   Created: 2025/07/01 01:31:03 by saslanya          #+#    #+#             */
+/*   Updated: 2025/07/01 01:40:30 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
 
-int	main(int argc, char **argv)
+bool	is_valid_f(const char *fname)
 {
-	if (argc != 2 || !is_valid_f(*(argv + 1)))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	const char	*iter;
+
+	iter = ft_strrchr(fname, '.');
+	if (iter && !ft_strncmp(iter, FFORMAT, FSIZE))
+		return (true);
+	else
+		return (false);
 }

@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
+/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 17:45:28 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/01 01:48:43 by saslanya         ###   ########.fr       */
+/*   Created: 2025/01/19 15:49:25 by saslanya          #+#    #+#             */
+/*   Updated: 2025/01/19 15:49:28 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+int	ft_lstsize(t_list *lst)
 {
-	if (argc != 2 || !is_valid_f(*(argv + 1)))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	int	size;
+
+	size = 0;
+	while (lst)
+	{
+		++size;
+		lst = lst->next;
+	}
+	return (size);
 }

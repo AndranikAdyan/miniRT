@@ -8,8 +8,8 @@ RESET   = \e[0m
 
 NAME = miniRT
 
-LIBFT_DIR = libs/libft
-MLX_DIR   = libs/minilibx-linux
+LIBFT_DIR = library/libft
+MLX_DIR   = library/minilibx-linux
 
 LIBFT = -L$(LIBFT_DIR) -lft
 MLX   = -L$(MLX_DIR) -lmlx -lm -lX11 -lXext
@@ -61,7 +61,7 @@ fclean: clean
 	@echo "🗑  ${RED}Remove Executable Files...${RESET}"
 
 norm:
-	@norminette $(SRC) libs/libft
+	@norminette $(SRC) library/libft library/
 
 re: fclean mlxclean all
 

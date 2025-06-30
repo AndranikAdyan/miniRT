@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 17:45:28 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/01 01:48:43 by saslanya         ###   ########.fr       */
+/*   Created: 2025/01/19 15:46:46 by saslanya          #+#    #+#             */
+/*   Updated: 2025/01/19 15:46:48 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+int	ft_isdigit(int letter)
 {
-	if (argc != 2 || !is_valid_f(*(argv + 1)))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (letter >= '0' && letter <= '9');
 }

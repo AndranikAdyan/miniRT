@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 17:45:28 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/01 01:48:43 by saslanya         ###   ########.fr       */
+/*   Created: 2025/01/19 15:45:33 by saslanya          #+#    #+#             */
+/*   Updated: 2025/01/19 15:45:36 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+void	*ft_calloc(size_t num, size_t size)
 {
-	if (argc != 2 || !is_valid_f(*(argv + 1)))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	size_t	total;
+	void	*ptr;
+
+	total = num * size;
+	if (num && total / num != size)
+		return (NULL);
+	ptr = malloc(total);
+	if (ptr)
+		ft_bzero(ptr, total);
+	return (ptr);
 }
+/* over check */
