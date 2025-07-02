@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:38:22 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/02 23:58:58 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/03 00:53:19 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static bool	check_param(const char *s)
 	is_decimal = false;
 	while (s && s[++i])
 	{
-		if ((s[i] == '-' || s[i] == '+') && i && !ft_isdigit(s[i + 1]))
+		if ((s[i] == '-' || s[i] == '+') && !ft_isdigit(s[i + 1]))
 			return (false);
 		else if (s[i] == '.')
 		{
@@ -76,12 +76,12 @@ static bool	check_param(const char *s)
 
 bool	params_config(const char **params, size_t mand_count)
 {
-	if (!params || (params_count(params + 1) != mand_count
-			|| (!ft_strncmp(params[0], "L")
-				&& params_count(params + 1) != mand_count + 1)))
+	if ((!params || params_count((const char **)(params + 1)) != mand_count)
+		&& (!ft_strncmp(params[0], "L", 1)
+			&& params_count((const char **)(params + 1)) != mand_count + 1))
 		return (false);
 	while (++params)
-		if (!check_param(params))
+		if (!check_param((const char *)params))
 			return (false);
 	return (true);
 }

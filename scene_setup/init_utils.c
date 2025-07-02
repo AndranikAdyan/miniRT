@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 22:28:41 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/02 23:51:08 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/03 00:51:44 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-bool	init_vec(const char *s, t_vector *pos)
+#include "scene.h"
+
+bool	init_vec(const char *s, t_vec *pos)
 {
 	char	**param;
 
 	param = ft_split(s, ',');
-	if (!param || param_count(param) != VEC_ARG_SIZE)
+	if (!param || params_count((const char **)param) != VEC_ARG_SIZE)
 		return (false);
 	pos->x = ft_atof(param[0]);
 	pos->y = ft_atof(param[1]);
@@ -28,7 +30,7 @@ bool	init_color(const char *s, t_rgb *color)
 	char	**param;
 
 	param = ft_split(s, ',');
-	if (!param || param_count(param) != 3)
+	if (!param || params_count((const char **)param) != 3)
 		return (false);
 	color->red = ft_atof(param[0]);
 	color->green = ft_atof(param[1]);
@@ -44,8 +46,8 @@ double	ft_atof(const char *s)
 	param[1] = 0;
 	param[2] = 0;
 	param[3] = 1;
-	if (s && *s == '+' || *s == '-')
-		param[3] = (double)((*s == '+') - (*s++ == '-'));
+	if (s && (*s == '+' || *s == '-') && ++s)
+		param[3] = (double)((*(s - 1) == '+') - (*(s - 1) == '-'));
 	while (s && *s)
 	{
 		if (ft_isdigit(*s))

@@ -24,7 +24,7 @@ BUILD_DIR = build
 OBJ := $(patsubst ./%.c,$(BUILD_DIR)/%.o,$(SRC))
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 all: build configure lib $(NAME)
 
@@ -61,7 +61,7 @@ fclean: clean
 	@echo "🗑  ${RED}Remove Executable Files...${RESET}"
 
 norm:
-	@norminette $(SRC) library/libft library/
+	norminette $(SRC) ./library/libft ./library/get_next_line
 
 re: fclean mlxclean all
 
