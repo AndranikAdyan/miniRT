@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initilization.h                                    :+:      :+:    :+:   */
+/*   vectors_formulas.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 18:46:08 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/03 00:11:25 by aadyan           ###   ########.fr       */
+/*   Created: 2025/07/03 01:15:33 by aadyan            #+#    #+#             */
+/*   Updated: 2025/07/03 01:26:55 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INITILIZATION_H
-# define INITILIZATION_H
+#ifndef VECTORS_FORMULAS_H
+# define VECTORS_FORMULAS_H
 
-# include "miniRT.h"
+# include "scene.h"
 
-typedef struct s_mlx    t_mlx;
-
-t_mlx   *init_mlx(void);
-int     free_mlx(t_mlx *mlx);
+double	dot_product(t_vec a, t_vec b);
+t_vec	scalar_product(t_vec a, double num);
 
 #endif

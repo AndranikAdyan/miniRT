@@ -1,40 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.h                                           :+:      :+:    :+:   */
+/*   mlx_initialization.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 18:23:52 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/03 01:38:19 by aadyan           ###   ########.fr       */
+/*   Created: 2025/06/26 18:46:08 by aadyan            #+#    #+#             */
+/*   Updated: 2025/07/03 01:38:03 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef INITILIZATION_H
+# define INITILIZATION_H
 
-# define WIN_SIZE 720
+# include "miniRT.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include "mlx.h"
-# include "mlx_initialization.h"
-# include "hooks.h"
+typedef struct s_mlx	t_mlx;
 
-typedef struct s_data
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}	t_data;
-
-typedef struct s_mlx
-{
-	void	*mlx;
-	void	*window;
-	t_data	*img_data;
-}	t_mlx;
+t_mlx	*init_mlx(void);
+int		free_mlx(t_mlx *mlx);
 
 #endif

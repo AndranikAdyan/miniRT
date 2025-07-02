@@ -61,7 +61,7 @@ fclean: clean
 	@echo "🗑  ${RED}Remove Executable Files...${RESET}"
 
 norm:
-	norminette $(SRC) ./library/libft ./library/get_next_line
+	@norminette $(SRC) ./library/libft ./library/get_next_line
 
 re: fclean mlxclean all
 
