@@ -5,63 +5,83 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 01:31:03 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/02 19:41:28 by saslanya         ###   ########.fr       */
+/*   Created: 2025/07/02 17:38:22 by saslanya          #+#    #+#             */
+/*   Updated: 2025/07/02 23:58:58 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
 
-bool	init_vec(const char *s, t_vector *pos)
+bool	is_valid_f(const char *fname)
 {
-	char	**param;
+	const char	*iter;
 
-	param = ft_split(s, ',');
-	if (!param || param_count(param) != VEC_ARG_SIZE)
+	iter = ft_strrchr(fname, '.');
+	if (iter && !ft_strncmp(iter, FFORMAT, FSIZE))
+		return (true);
+	else
 		return (false);
-	pos->x = ft_atof(param[0]);
-	pos->y = ft_atof(param[1]);
-	pos->z = ft_atof(param[2]);
-	return (free_split(&param), true);
 }
 
-double	ft_atof(const char *s)
+void	free_split(char ***s)
 {
-	double	param[4];
+	size_t	i;
 
-	param[0] = 0;
-	param[1] = 0;
-	param[2] = 0;
-	param[3] = 1;
-	if (s && *s == '+' || *s == '-')
-		param[3] = (double)((*s == '+') - (*s++ == '-'));
-	while (s && *s)
+	i = 0;
+	while ((*s)[i])
 	{
-		if (ft_isdigit(*s))
-		{
-			param[0] = param[0] * 10.0 + (double)(*s - '0');
-			if (param[2])
-				++param[1];
-		}
-		else if (*s == '.' && !param[2])
-			param[2] = 1.0;
-		else
-			return (0.0);
-		++s;
+		free((*s)[i]);
+		++i;
 	}
-	param[0] *= param[3];
-	return (param[0] / pow(10.0, (int)param[1]));
+	free(*s);
+	*s = NULL;
+	return ;
 }
 
-bool	camera_config(t_camera **camera, char **params)
+size_t	params_count(const char **params)
 {
-	if (params_count(params) != 4 || !params_config(params, CAM_ARG_SIZE))
-		return (camera = NULL, false);
-	*camera = ft_calloc(1, sizeof(t_camera));
-	if (!*camera)
+	size_t	count;
+
+	count = 0;
+	while (params && params[count])
+		++count;
+	return (count);
+}
+
+static bool	check_param(const char *s)
+{
+	size_t	i;
+	bool	is_decimal;
+
+	i = -1;
+	is_decimal = false;
+	while (s && s[++i])
+	{
+		if ((s[i] == '-' || s[i] == '+') && i && !ft_isdigit(s[i + 1]))
+			return (false);
+		else if (s[i] == '.')
+		{
+			if (!i || is_decimal)
+				return (false);
+			is_decimal = true;
+		}
+		else if (s[i] == ','
+			&& (!i || !ft_isdigit(s[i - 1]) || !ft_isdigit(s[i + 1])))
+			return (false);
+		else if (!ft_isdigit(s[i]))
+			return (false);
+	}
+	return (true);
+}
+
+bool	params_config(const char **params, size_t mand_count)
+{
+	if (!params || (params_count(params + 1) != mand_count
+			|| (!ft_strncmp(params[0], "L")
+				&& params_count(params + 1) != mand_count + 1)))
 		return (false);
-	if (!init_vec(param[1], *camera->pos) && !init_vec(param[2], *camera->dir))
-		return (free(*camera), *camera = NULL, false);
-	*camera->fov = ft_atoi(param[3]);
+	while (++params)
+		if (!check_param(params))
+			return (false);
 	return (true);
 }
