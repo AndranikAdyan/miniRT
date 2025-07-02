@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:38:22 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/03 00:53:19 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/03 01:06:12 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ bool	params_config(const char **params, size_t mand_count)
 		&& (!ft_strncmp(params[0], "L", 1)
 			&& params_count((const char **)(params + 1)) != mand_count + 1))
 		return (false);
-	while (++params)
-		if (!check_param((const char *)params))
+	while (*(++params))
+		if (!check_param(*params))
 			return (false);
 	return (true);
 }
