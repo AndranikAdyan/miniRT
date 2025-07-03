@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:15:18 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/03 17:23:57 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/03 20:48:44 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 double	vec_length(t_vec *a)
 {
-	return (sqrtf(pow(a->x, 2.0) + pow(a->y, 2.0) + pow(a->z, 2.0)));
+	return (sqrt(a->x * a->x + a->y * a->y + a->z * a->z));
 }
 
 t_vec	normalize(t_vec *a)
 {
 	t_vec	res;
-	double	len;
 
 	len = vec_length(a);
+	if (len == 0)
+		return ((t_vec){0, 0, 0});
 	res.x = a->x / len;
 	res.y = a->y / len;
 	res.z = a->z / len;

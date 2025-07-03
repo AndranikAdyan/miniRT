@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vectors_formulas.h                                 :+:      :+:    :+:   */
+/*   ray.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/03 01:15:33 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/03 20:42:16 by aadyan           ###   ########.fr       */
+/*   Created: 2025/07/03 19:59:38 by aadyan            #+#    #+#             */
+/*   Updated: 2025/07/03 20:44:06 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTORS_FORMULAS_H
-# define VECTORS_FORMULAS_H
+#ifndef RAY_H
+# define RAY_H
 
-# include "scene.h"
+# include "vectors_formulas.h"
+# include "math.h"
+# include "miniRT.h"
 
-double	dot_product(t_vec *a, t_vec *b);
-t_vec	scalar_product(t_vec *a, double num);
-t_vec	cross_product(t_vec *a, t_vec *b);
-double	vec_length(t_vec *a);
-t_vec	normalize(t_vec *a);
-t_vec	vec_add(t_vec *a, t_vec *b);
-t_vec	vec_sub(t_vec *a, t_vec *b);
+t_vec	compute_ray(t_camera *camera, double x, double y);
 
 #endif
