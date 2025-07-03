@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_utils.c                                       :+:      :+:    :+:   */
+/*   config_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 22:28:41 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/03 00:51:44 by aadyan           ###   ########.fr       */
+/*   Created: 2025/07/04 01:59:50 by saslanya          #+#    #+#             */
+/*   Updated: 2025/07/04 02:03:41 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
+
+void	free_split(char ***s)
+{
+	size_t	i;
+
+	i = 0;
+	while ((*s)[i])
+	{
+		free((*s)[i]);
+		++i;
+	}
+	free(*s);
+	*s = NULL;
+	return ;
+}
 
 bool	init_vec(const char *s, t_vec *pos)
 {

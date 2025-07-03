@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:38:22 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/03 01:06:12 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/04 02:10:56 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,6 @@ bool	is_valid_f(const char *fname)
 		return (true);
 	else
 		return (false);
-}
-
-void	free_split(char ***s)
-{
-	size_t	i;
-
-	i = 0;
-	while ((*s)[i])
-	{
-		free((*s)[i]);
-		++i;
-	}
-	free(*s);
-	*s = NULL;
-	return ;
 }
 
 size_t	params_count(const char **params)
@@ -76,9 +61,7 @@ static bool	check_param(const char *s)
 
 bool	params_config(const char **params, size_t mand_count)
 {
-	if ((!params || params_count((const char **)(params + 1)) != mand_count)
-		&& (!ft_strncmp(params[0], "L", 1)
-			&& params_count((const char **)(params + 1)) != mand_count + 1))
+	if (!params || params_count((const char **)(params + 1)) != mand_count)
 		return (false);
 	while (*(++params))
 		if (!check_param(*params))
