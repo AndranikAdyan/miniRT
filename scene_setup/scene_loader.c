@@ -6,11 +6,20 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:08:37 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/04 02:23:16 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:11:17 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
+
+void	free_scene(t_scene **scene)
+{
+	free((*scene)->camera);
+	ft_lstclear(&((*scene)->objects), free);
+	ft_lstclear(&((*scene)->lights), free);
+	free(*scene);
+	*scene = NULL;
+}
 
 static bool	data_addition(const char **params, t_scene *scene, t_light *light)
 {
@@ -42,7 +51,7 @@ static bool	data_read(int fd, t_scene *scene)
 		line = get_next_line(fd);
 		if (!line || !*line)
 			break ;
-		else if (*line == NEWLINE || *line == '#')
+		if (*line == NEWLINE || *line == '#')
 		{
 			free(line);
 			continue ;
@@ -57,7 +66,8 @@ static bool	data_read(int fd, t_scene *scene)
 		if (!addition_status)
 			return (false);
 	}
-	return (free(line), data_analysis(scene));
+//	return (free(line), data_analysis(scene));
+	return (free(line), true);
 }
 
 bool	load_scene(const char *filename, t_scene *scene)

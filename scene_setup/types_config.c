@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:40:38 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/04 01:54:19 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/04 12:54:06 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,22 @@
 
 bool	light_config(const char **params, t_light **light)
 {
-	int	pos_index;
-
 	if (!params_config(params, 2)
 		&& !params_config(params, 3))
 		return (*light = NULL, false);
-	pos_index = !ft_strncmp(params[0], "A", 2) + 1;
 	*light = ft_calloc(1, sizeof(t_light));
 	if (!*light)
 		return (false);
-	if (!init_vec(params[pos_index], &(*light)->pos))
-		return (free(*light), *light = NULL, false);
-	(*light)->ratio = ft_atof(params[pos_index == 1]);
 	(*light)->type = LIGHT;
-	if (pos_index != 1)
+	if (**params == AMBIENT)
 		(*light)->type = AMBIENT;
-	if (params[2] && !init_color(params[2], &(*light)->color))
-		return (free(*light), *light = NULL, !params[2]);
-	return (true);
+	if (!init_vec(params[((*light)->type == AMBIENT) + 1], &(*light)->pos))
+		return (free(*light), *light = NULL, false);
+	(*light)->ratio = ft_atof(params[((*light)->type == LIGHT) + 1]);
+	if (params[3] && !init_color(params[3], &(*light)->color))
+		return (free(*light), *light = NULL, false);
+	else
+		return (true);
 }
 
 bool	camera_config(const char **params, t_camera **camera)

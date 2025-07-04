@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:38:22 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/04 02:10:56 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:10:00 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,31 @@ size_t	params_count(const char **params)
 	return (count);
 }
 
+static bool	check_letter(const char *s, int i, bool *decimal)
+{
+	if (s[i] == '-' || s[i] == '+')
+	{
+		if (!ft_isdigit(s[i + 1]))
+			return (false);
+	}
+	else if (s[i] == '.')
+	{
+		if (!i || *is_decimal)
+			return (false);
+		*is_decimal = true;
+	}
+	else if (s[i] == ',')
+	{
+		if (!i || !ft_isdigit(s[i - 1]) || (!ft_isdigit(s[i + 1])
+				&& s[i + 1] != '+' && s[i + 1] != '-'))
+			return (false);
+	}
+	else if (!ft_isdigit(s[i]))
+		return (false);
+	else
+		return (true);
+}
+
 static bool	check_param(const char *s)
 {
 	size_t	i;
@@ -41,21 +66,8 @@ static bool	check_param(const char *s)
 	i = -1;
 	is_decimal = false;
 	while (s && s[++i])
-	{
-		if ((s[i] == '-' || s[i] == '+') && !ft_isdigit(s[i + 1]))
+		if (!check_letter(s, i, &is_decimal))
 			return (false);
-		else if (s[i] == '.')
-		{
-			if (!i || is_decimal)
-				return (false);
-			is_decimal = true;
-		}
-		else if (s[i] == ','
-			&& (!i || !ft_isdigit(s[i - 1]) || !ft_isdigit(s[i + 1])))
-			return (false);
-		else if (!ft_isdigit(s[i]))
-			return (false);
-	}
 	return (true);
 }
 
@@ -64,7 +76,9 @@ bool	params_config(const char **params, size_t mand_count)
 	if (!params || params_count((const char **)(params + 1)) != mand_count)
 		return (false);
 	while (*(++params))
+	{
 		if (!check_param(*params))
 			return (false);
+	}
 	return (true);
 }

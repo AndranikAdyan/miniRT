@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:59:50 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/04 02:03:41 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/04 11:58:50 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,25 @@ bool	init_vec(const char *s, t_vec *pos)
 bool	init_color(const char *s, t_rgb *color)
 {
 	char	**param;
+	int		value[3];
+	bool	values_status;
 
 	param = ft_split(s, ',');
 	if (!param || params_count((const char **)param) != 3)
 		return (false);
-	color->red = ft_atof(param[0]);
-	color->green = ft_atof(param[1]);
-	color->blue = ft_atof(param[2]);
-	return (free_split(&param), true);
+	value[0] = ft_atoi(param[0]);
+	value[1] = ft_atoi(param[1]);
+	value[2] = ft_atoi(param[2]);
+	values_status = (value[0] >= 0 && value[0] <= UCHAR_MAX)
+		&& (value[1] >= 0 && value[1] <= UCHAR_MAX)
+		&& (value[2] >= 0 && value[2] <= UCHAR_MAX);
+	if (values_status)
+	{
+		color->red = value[0];
+		color->green = value[1];
+		color->blue = value[2];
+	}
+	return (free_split(&param), values_status);
 }
 
 double	ft_atof(const char *s)
