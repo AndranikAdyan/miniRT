@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:38:22 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/04 13:10:00 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:16:27 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ size_t	params_count(const char **params)
 	return (count);
 }
 
-static bool	check_letter(const char *s, int i, bool *decimal)
+static bool	check_letter(const char *s, int i, bool *is_decimal)
 {
 	if (s[i] == '-' || s[i] == '+')
 	{
@@ -54,8 +54,7 @@ static bool	check_letter(const char *s, int i, bool *decimal)
 	}
 	else if (!ft_isdigit(s[i]))
 		return (false);
-	else
-		return (true);
+	return (true);
 }
 
 static bool	check_param(const char *s)
