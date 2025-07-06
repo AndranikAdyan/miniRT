@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 00:12:45 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/04 13:10:37 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/07 00:22:49 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ bool	params_config(const char **param, size_t mand_count);
 // Some utils part
 void	free_split(char ***s);
 double	ft_atof(const char *arg);
-bool	init_vec(const char *s, t_vec *pos);
+bool	between_range(double value, double min, double max);
+bool	init_vec(const char *s, t_vec *pos, double min, double max);
 bool	init_color(const char *s, t_rgb *color);
 // scene loader part BUILDER PATTERN
 void	free_scene(t_scene **scene);

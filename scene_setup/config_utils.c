@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:59:50 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/04 11:58:50 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/07 00:19:23 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ void	free_split(char ***s)
 	return ;
 }
 
-bool	init_vec(const char *s, t_vec *pos)
+bool	between_range(double value, double min, double max)
+{
+	return (value >= min && value <= max);
+}
+
+bool	init_vec(const char *s, t_vec *pos, double min, double max)
 {
 	char	**param;
 
@@ -37,7 +42,12 @@ bool	init_vec(const char *s, t_vec *pos)
 	pos->x = ft_atof(param[0]);
 	pos->y = ft_atof(param[1]);
 	pos->z = ft_atof(param[2]);
-	return (free_split(&param), true);
+	free_split(&param);
+	if (min != max)
+		return (between_range(pos->x, min, max)
+			&& between_range(pos->y, min, max)
+			&& between_range(pos->z, min, max));
+	return (true);
 }
 
 bool	init_color(const char *s, t_rgb *color)
