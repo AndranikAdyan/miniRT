@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene_loader.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:08:37 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/07 12:42:06 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:17:20 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,8 @@ static bool	data_addition(const char **params, t_scene *scene
 	return (false);
 }
 
-static bool	data_read(int fd, t_scene *scene)
+static bool	data_read(int fd, t_scene *scene, char *line)
 {
-	char	*line;
 	char	**p;
 	bool	addition_status;
 
@@ -68,7 +67,8 @@ static bool	data_read(int fd, t_scene *scene)
 			free(line);
 			continue ;
 		}
-		*(ft_strchr(line, NEWLINE)) = ' ';
+		if (ft_strchr(line, NEWLINE))
+			*ft_strrchr(line, NEWLINE) = ' ';
 		p = ft_split(line, ' ');
 		if (!p)
 			break ;
@@ -78,8 +78,7 @@ static bool	data_read(int fd, t_scene *scene)
 		if (!addition_status)
 			return (false);
 	}
-//	return (free(line), data_analysis(scene));
-	return (free(line), true);
+	return (free(line), data_analysis(scene));
 }
 
 bool	load_scene(const char *filename, t_scene *scene)
@@ -90,7 +89,7 @@ bool	load_scene(const char *filename, t_scene *scene)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (false);
-	status = data_read(fd, scene);
+	status = data_read(fd, scene, NULL);
 	close(fd);
 	return (status);
 }

@@ -2,6 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+bool	is_valid_f(const char *fname)
+{
+	const char	*iter;
+
+	iter = ft_strrchr(fname, '.');
+	if (iter && !ft_strncmp(iter, FFORMAT, FSIZE))
+		return (true);
+	else
+		return (false);
+}
+
 static void	print_camera(const t_camera *cam)
 {
 	if (!cam)

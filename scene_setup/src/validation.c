@@ -6,12 +6,12 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:38:22 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/04 13:16:27 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/07 13:12:02 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
-
+/*
 bool	is_valid_f(const char *fname)
 {
 	const char	*iter;
@@ -22,6 +22,7 @@ bool	is_valid_f(const char *fname)
 	else
 		return (false);
 }
+*/
 
 size_t	params_count(const char **params)
 {
@@ -80,4 +81,24 @@ bool	params_config(const char **params, size_t mand_count)
 			return (false);
 	}
 	return (true);
+}
+
+bool	data_analysis(t_scene *scene)
+{
+	char	status;
+	t_list	*iter;
+
+	status = 0;
+	if (scene->camera)
+		status |= 1 << 2;
+	iter = scene->lights;
+	while (iter)
+	{
+		if (((t_light *)iter->content)->type == LIGHT)
+			status |= 1 << 1;
+		else if (((t_light *)iter->content)->type == AMBIENT)
+			status |= 1;
+		iter = iter->next;
+	}
+	return ((status & 0x07) == 0x07);
 }

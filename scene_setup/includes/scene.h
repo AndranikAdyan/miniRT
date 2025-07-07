@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 00:12:45 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/07 12:39:13 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/07 13:12:34 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 
 // Validation part
 size_t	params_count(const char **params);
-bool	is_valid_f(const char *fname);
 bool	params_config(const char **param, size_t mand_count);
+bool	data_analysis(t_scene *scene);
 // Some utils part
 void	free_split(char ***s);
 double	ft_atof(const char *arg);
