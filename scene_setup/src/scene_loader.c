@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:08:37 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/04 13:11:17 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/07 12:42:06 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,41 @@ void	free_scene(t_scene **scene)
 	*scene = NULL;
 }
 
-static bool	data_addition(const char **params, t_scene *scene, t_light *light)
+static bool	add_to_list(t_list **list, void *data)
 {
-	t_list	*node;
+	t_list	*new_node;
 
+	if (data)
+	{
+		new_node = ft_lstnew(data);
+		if (!new_node)
+			return (free(data), false);
+		ft_lstadd_back(list, new_node);
+		return (true);
+	}
+	return (false);
+}
+
+static bool	data_addition(const char **params, t_scene *scene
+		, t_light *light, t_object *object)
+{
 	if (**params == CAMERA && !*(*params + 1))
 		return (camera_config(params, &(scene->camera)));
-	else if ((**params == AMBIENT || **params == LIGHT) && !*(*params + 1))
-	{
-		if (light_config(params, &light))
-		{
-			node = ft_lstnew(light);
-			if (node)
-				return (ft_lstadd_back(&(scene->lights), node), true);
-		}
-		return (free(light), false);
-	}
+	else if (((**params == AMBIENT || **params == LIGHT) && !*(*params + 1))
+		&& (light_config(params, &light)
+			&& add_to_list(&(scene->lights), light)))
+		return (true);
+	else if ((!ft_strncmp(*params, "sp", 3) || !ft_strncmp(*params, "pl", 3)
+			|| !ft_strncmp(*params, "cy", 3)) && object_config(params, &object)
+		&& add_to_list(&(scene->objects), object))
+		return (true);
 	return (false);
 }
 
 static bool	data_read(int fd, t_scene *scene)
 {
 	char	*line;
-	char	**params;
+	char	**p;
 	bool	addition_status;
 
 	while (true)
@@ -57,12 +69,12 @@ static bool	data_read(int fd, t_scene *scene)
 			continue ;
 		}
 		*(ft_strchr(line, NEWLINE)) = ' ';
-		params = ft_split(line, ' ');
-		if (!params)
+		p = ft_split(line, ' ');
+		if (!p)
 			break ;
 		free(line);
-		addition_status = data_addition((const char **)params, scene, NULL);
-		free_split(&params);
+		addition_status = data_addition((const char **)p, scene, NULL, NULL);
+		free_split(&p);
 		if (!addition_status)
 			return (false);
 	}

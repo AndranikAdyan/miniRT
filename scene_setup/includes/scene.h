@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 00:12:45 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/07 00:22:49 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/07 12:39:13 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@
 # define FSIZE 4
 # define VEC_ARG_SIZE 3
 
-# define CAMERA 'C'
-# define AMBIENT 'A'
-# define LIGHT 'L'
 // Validation part
 size_t	params_count(const char **params);
 bool	is_valid_f(const char *fname);
@@ -41,6 +38,7 @@ bool	init_color(const char *s, t_rgb *color);
 void	free_scene(t_scene **scene);
 bool	light_config(const char **params, t_light **light);
 bool	camera_config(const char **params, t_camera **camera);
+bool	object_config(const char **params, t_object **obj);
 bool	load_scene(const char *filename, t_scene *scene);
 
 #endif

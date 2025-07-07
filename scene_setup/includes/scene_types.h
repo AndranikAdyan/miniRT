@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:16:39 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/04 01:55:33 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:49:04 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define SCENE_TYPES_H
 
 # include "libft.h"
+
+# define CAMERA 'C'
+# define AMBIENT 'A'
+# define LIGHT 'L'
+# define SPHERE 's'
+# define PLANE 'p'
+# define CYLINDER 'c'
 
 typedef struct s_rgb
 {
@@ -59,13 +66,6 @@ typedef struct s_cylinder
 	t_rgb	color;
 }	t_cylinder;
 
-typedef enum e_object_type
-{
-	SPHERE,
-	PLANE,
-	CYLINDER,
-}	t_object_type;
-
 typedef union u_object_data
 {
 	t_sphere	sphere;
@@ -75,7 +75,7 @@ typedef union u_object_data
 
 typedef struct s_object
 {
-	t_object_type	obj_type;
+	char			type;
 	t_object_data	variant;
 }	t_object;
 
