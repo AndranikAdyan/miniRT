@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:08:37 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/08 17:17:20 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/09 19:24:17 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	free_scene(t_scene **scene)
 {
+	if (!*scene)
+		return ;
 	free((*scene)->camera);
 	ft_lstclear(&((*scene)->objects), free);
 	ft_lstclear(&((*scene)->lights), free);

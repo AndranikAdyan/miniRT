@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 18:46:10 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/09 17:10:44 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/09 19:23:55 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ t_mlx	*init_mlx(char **argv)
 	t_mlx	*mlx;
 	t_scene	*scene;
 
-	mlx = (t_mlx *)malloc(sizeof(t_mlx));
+	mlx = (t_mlx *)ft_calloc(1, sizeof(t_mlx));
 	if (!mlx)
 		return (NULL);
-	mlx->img_data = (t_data *)malloc(sizeof(t_data));
+	mlx->img_data = (t_data *)ft_calloc(1, sizeof(t_data));
 	if (!mlx->img_data)
 		return (free(mlx), NULL);
 	mlx->mlx = mlx_init();
@@ -33,7 +33,7 @@ t_mlx	*init_mlx(char **argv)
 	if (!scene)
 		return (perror("Memory allocation failed for scene"), NULL);
 	if (!load_scene(argv[1], scene))
-		return (printf("Failed to load scene.\n"), free_scene(&scene), NULL);
+		return (printf("Failed to load scene.\n"), free_mlx(mlx), NULL);
 	mlx->scene = scene;
 	return (mlx);
 }
