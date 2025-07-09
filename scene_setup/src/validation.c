@@ -6,33 +6,11 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:38:22 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/07 13:12:02 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:11:10 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
-/*
-bool	is_valid_f(const char *fname)
-{
-	const char	*iter;
-
-	iter = ft_strrchr(fname, '.');
-	if (iter && !ft_strncmp(iter, FFORMAT, FSIZE))
-		return (true);
-	else
-		return (false);
-}
-*/
-
-size_t	params_count(const char **params)
-{
-	size_t	count;
-
-	count = 0;
-	while (params && params[count])
-		++count;
-	return (count);
-}
 
 static bool	check_letter(const char *s, int i, bool *is_decimal)
 {
@@ -101,4 +79,19 @@ bool	data_analysis(t_scene *scene)
 		iter = iter->next;
 	}
 	return ((status & 0x07) == 0x07);
+}
+
+bool	validation(int argc, char **argv)
+{
+	if (argc != 2)
+	{
+		printf("Usage: %s <scene_file.rt>\n", argv[0]);
+		return (false);
+	}
+	if (!is_valid_f(argv[1]))
+	{
+		printf("Invalid file format. Expected .rt file.\n");
+		return (false);
+	}
+	return (true);
 }

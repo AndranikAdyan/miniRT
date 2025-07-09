@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 18:23:52 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/03 20:29:01 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/09 01:17:59 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include "hooks.h"
 # include "scene.h"
 # include "ray.h"
+# include "intersection.h"
 
 typedef struct s_data
 {
@@ -40,6 +41,7 @@ typedef struct s_mlx
 	void	*mlx;
 	void	*window;
 	t_data	*img_data;
+	t_scene	*scene;
 }	t_mlx;
 
 #endif

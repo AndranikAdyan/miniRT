@@ -112,6 +112,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 
+	
+
 	print_camera(scene->camera);
 	print_lights(scene->lights);
 	print_objects(scene->objects);

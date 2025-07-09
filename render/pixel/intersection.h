@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_initialization.h                               :+:      :+:    :+:   */
+/*   intersection.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 18:46:08 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/09 17:10:24 by aadyan           ###   ########.fr       */
+/*   Created: 2025/07/09 00:09:07 by aadyan            #+#    #+#             */
+/*   Updated: 2025/07/09 01:25:48 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INITILIZATION_H
-# define INITILIZATION_H
+#ifndef INTERSECTION_H
+# define INTERSECTION_H
 
 # include "miniRT.h"
-# include "scene_types.h"
+# include "scene.h"
+# include "ray.h"
+# include "miniRT.h"
 
-typedef struct s_mlx	t_mlx;
+double	intersection_sphere(t_scene *scene,
+		t_sphere *sphere, double x, double y);
+t_rgb	*calculate_color(t_scene *scene, double x, double y);
+void	draw_objects(t_mlx *mlx);
 
-t_mlx	*init_mlx(char **argv);
-int		free_mlx(t_mlx *mlx);
 
 #endif

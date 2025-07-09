@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_initialization.h                               :+:      :+:    :+:   */
+/*   validation_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 18:46:08 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/09 17:10:24 by aadyan           ###   ########.fr       */
+/*   Created: 2025/07/09 17:01:33 by aadyan            #+#    #+#             */
+/*   Updated: 2025/07/09 17:03:04 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INITILIZATION_H
-# define INITILIZATION_H
+#include "scene.h"
 
-# include "miniRT.h"
-# include "scene_types.h"
+size_t	params_count(const char **params)
+{
+	size_t	count;
 
-typedef struct s_mlx	t_mlx;
+	count = 0;
+	while (params && params[count])
+		++count;
+	return (count);
+}
 
-t_mlx	*init_mlx(char **argv);
-int		free_mlx(t_mlx *mlx);
+bool	is_valid_f(const char *fname)
+{
+	const char	*iter;
 
-#endif
+	iter = ft_strrchr(fname, '.');
+	if (iter && !ft_strncmp(iter, FFORMAT, FSIZE))
+		return (true);
+	else
+		return (false);
+}
