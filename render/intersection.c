@@ -1,65 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Intersection_sphere.c                              :+:      :+:    :+:   */
+/*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:09 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/09 17:27:55 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/11 01:17:28 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "intersection.h"
-
-t_rgb	calculate_color(t_scene *scene, double x, double y)
-{
-	double		min;
-	double		tmp_min;
-	t_rgb		color;
-	t_list		*obj_list;
-
-	color = (t_rgb){0, 0, 0};
-	min = INFINITY;
-	obj_list = scene->objects;
-	while (obj_list)
-	{
-		if (((t_object *)obj_list->content)->type == SPHERE)
-		{
-			tmp_min = intersection_sphere(scene,
-					&(((t_object *)obj_list->content)->variant.sphere), x, y);
-			if (tmp_min < min)
-			{
-				min = tmp_min;
-				color = (((t_object *)obj_list->content)
-						->variant.sphere.color);
-			}
-		}
-		obj_list = obj_list->next;
-	}
-	return (color);
-}
-
-void	draw_frame(t_mlx *mlx)
-{
-	double	x;
-	double	y;
-	t_rgb	color;
-
-	y = -1.0;
-	while (++y < WIN_HEIGHT)
-	{
-		x = -1.0;
-		while (++x < WIN_WEIGHT)
-		{
-			color = calculate_color(mlx->scene, x, y);
-			*(int *)(mlx->img_data->addr + ((int)y * mlx->img_data->line_length
-						+ (int)x * (mlx->img_data->bits_per_pixel / 8)))
-				= (color.red << 16) | (color.green << 8) | color.blue;
-		}
-	}
-	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->img_data->img, 0, 0);
-}
 
 double	intersection_sphere(t_scene *scene,
 		t_sphere *sphere, double x, double y)
@@ -86,6 +37,24 @@ double	intersection_sphere(t_scene *scene,
 		return (t[0]);
 	else if (t[1] > 0.001)
 		return (t[1]);
-	else
+	return (INFINITY);
+}
+
+double	intersection_plane(t_scene *scene,
+		t_plane *plane, double x, double y)
+{
+	double	denom;
+	t_vec	diff;
+	double	t;
+	t_vec	ray;
+
+	ray = compute_ray(scene->camera, x, y);
+	denom = dot_product(plane->normal, ray);
+	if (fabs(denom) < 1e-6)
 		return (INFINITY);
+	diff = vec_sub(plane->pos, scene->camera->pos);
+	t = dot_product(diff, plane->normal) / denom;
+	if (t >= 0)
+		return (t);
+	return (INFINITY);
 }
