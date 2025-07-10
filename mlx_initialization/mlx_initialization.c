@@ -26,9 +26,9 @@ t_mlx	*init_mlx(char **argv)
 	mlx->mlx = mlx_init();
 	mlx->window = mlx_new_window(mlx->mlx, WIN_WEIGHT, WIN_HEIGHT, "MiniRT");
 	mlx->img_data->img = mlx_new_image(mlx->mlx, WIN_WEIGHT, WIN_HEIGHT);
-	mlx->img_data->addr = mlx_get_data_addr(mlx->img_data->img, \
-						&mlx->img_data->bits_per_pixel, \
-						&mlx->img_data->line_length, &mlx->img_data->endian);
+	mlx->img_data->addr = mlx_get_data_addr(mlx->img_data->img,
+			&mlx->img_data->bits_per_pixel,
+			&mlx->img_data->line_length, &mlx->img_data->endian);
 	scene = ft_calloc(1, sizeof(t_scene));
 	if (!scene)
 		return (perror("Memory allocation failed for scene"), NULL);

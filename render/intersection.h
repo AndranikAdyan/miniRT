@@ -20,8 +20,9 @@
 
 double	intersection_sphere(t_scene *scene,
 		t_sphere *sphere, double x, double y);
-t_rgb	*calculate_color(t_scene *scene, double x, double y);
+t_rgb	calculate_color(t_scene *scene, double x, double y);
 void	draw_objects(t_mlx *mlx);
-
+void	draw_frame(t_mlx *mlx);
+int		rgb_to_int(t_rgb *color);
 
 #endif

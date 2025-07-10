@@ -22,7 +22,7 @@ int	main(int argc, char **argv)
 	if (!mlx)
 		return (1);
 	hooks(mlx);
-	draw_objects(mlx);
+	draw_frame(mlx);
 	printf("Done\n");
 	mlx_loop(mlx->mlx);
 	return (0);
