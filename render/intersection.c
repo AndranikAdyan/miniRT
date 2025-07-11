@@ -6,13 +6,13 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:09 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/11 11:58:43 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/11 13:33:29 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "intersection.h"
 
-static double	intersection_sphere(t_scene *scene,
+double	intersection_sphere(t_scene *scene,
 		t_sphere *sphere, double x, double y)
 {
 	t_vec	l;
@@ -40,7 +40,7 @@ static double	intersection_sphere(t_scene *scene,
 	return (INFINITY);
 }
 
-static double	intersection_plane(t_scene *scene,
+double	intersection_plane(t_scene *scene,
 		t_plane *plane, double x, double y)
 {
 	double	denom;
