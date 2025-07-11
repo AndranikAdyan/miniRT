@@ -6,13 +6,13 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:09 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/11 01:17:28 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/11 11:58:43 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "intersection.h"
 
-double	intersection_sphere(t_scene *scene,
+static double	intersection_sphere(t_scene *scene,
 		t_sphere *sphere, double x, double y)
 {
 	t_vec	l;
@@ -40,7 +40,7 @@ double	intersection_sphere(t_scene *scene,
 	return (INFINITY);
 }
 
-double	intersection_plane(t_scene *scene,
+static double	intersection_plane(t_scene *scene,
 		t_plane *plane, double x, double y)
 {
 	double	denom;
@@ -57,4 +57,34 @@ double	intersection_plane(t_scene *scene,
 	if (t >= 0)
 		return (t);
 	return (INFINITY);
+}
+
+t_rgb	intersection(t_scene *scene, t_list *obj_list,
+	double *min, double *xy)
+{
+	double	tmp_min;
+
+	if (((t_object *)obj_list->content)->type == SPHERE)
+	{
+		tmp_min = intersection_sphere(scene,
+				&(((t_object *)obj_list->content)->variant.sphere),
+				xy[0], xy[1]);
+		if (tmp_min < *min)
+		{
+			*min = tmp_min;
+			return (((t_object *)obj_list->content)->variant.sphere.color);
+		}
+	}
+	else if (((t_object *)obj_list->content)->type == PLANE)
+	{
+		tmp_min = intersection_plane(scene,
+				&(((t_object *)obj_list->content)->variant.plane),
+				xy[0], xy[1]);
+		if (tmp_min < *min)
+		{
+			*min = tmp_min;
+			return (((t_object *)obj_list->content)->variant.plane.color);
+		}
+	}
+	return ((t_rgb){0, 0, 0});
 }
