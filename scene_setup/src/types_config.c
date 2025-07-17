@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:40:38 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/07 12:53:14 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:28:40 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ bool	light_config(const char **params, t_light **light)
 	(*light)->type = LIGHT;
 	if (**params == AMBIENT)
 		(*light)->type = AMBIENT;
-	if (!init_vec(params[((*light)->type == AMBIENT) + 1],
-			&(*light)->pos, 0.0, 0.0))
+	if (!init_color(params[((*light)->type == LIGHT) + 2],
+			&(*light)->color))
 		return (free(*light), *light = NULL, false);
 	(*light)->ratio = ft_atof(params[((*light)->type == LIGHT) + 1]);
-	if ((params[3] && !init_color(params[3], &(*light)->color))
-		|| !between_range((*light)->ratio, 0.0, 1.0))
+	if ((*light)->type == LIGHT
+		&& !init_vec(params[1], &(*light)->pos, 0.0, 0.0))
+		return (free(*light), *light = NULL, false);
+	if (!between_range((*light)->ratio, 0.0, 1.0))
 		return (free(*light), *light = NULL, false);
 	return (true);
 }

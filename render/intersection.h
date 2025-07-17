@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:07 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/17 00:23:20 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/17 11:54:12 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,16 @@ typedef struct s_hit
 }	t_hit;
 
 void	intersection_with_object(t_scene *scene, t_object *figure,
-			t_hit *hit,  double *xy);
+			t_hit *hit, double *xy);
 void	intersection_with_light(t_scene *scene, t_light *light, t_hit *hit);
 void	draw_frame(t_mlx *mlx);
-
 void	set_hit_values(t_hit *hit, t_rgb color,
-	t_object *figure, t_vec point);
-
+			t_object *figure, t_vec point);
 double	intersection_sphere(t_scene *scene,
-		t_sphere *sphere, double x, double y);
+			t_sphere *sphere, double x, double y);
 double	intersection_plane(t_scene *scene,
-		t_plane *plane, double x, double y);
+			t_plane *plane, double x, double y);
 double	intersection_cylinder(t_scene *scene,
-		t_cylinder *cy, double x, double y);
+			t_cylinder *cy, double x, double y);
 
 #endif

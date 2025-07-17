@@ -38,6 +38,14 @@ static void	print_lights(const t_list *lights)
 	}
 }
 
+static void	print_ambient(const t_light *ambient)
+{
+	printf("AMBIENT (type %c):\n", ambient->type);
+	printf("  ratio = %.2f\n", ambient->ratio);
+	printf("  color = (%d, %d, %d)\n", ambient->color.red, ambient->color.green, ambient->color.blue);
+}
+
+
 static void	print_objects(const t_list *objects)
 {
 	const t_object	*obj;
@@ -115,6 +123,7 @@ int	main(int argc, char **argv)
 	
 
 	print_camera(scene->camera);
+	print_ambient(scene->ambient);
 	print_lights(scene->lights);
 	print_objects(scene->objects);
 

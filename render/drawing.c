@@ -6,11 +6,37 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:47:33 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/17 00:23:39 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/17 12:31:29 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "intersection.h"
+
+static void	apply_ambient_light(int *color, t_light *ambient)
+{
+	double	color_result;
+	t_rgb	current;
+
+	current.red = (*color >> 16) & 0xFF ;
+	current.green = (*color >> 8) & 0xFF;
+	current.blue = *color & 0xFF;
+	color_result = current.red * ambient->ratio
+		* ((double)ambient->color.red / UCHAR_MAX);
+	if (color_result > UCHAR_MAX)
+		color_result = UCHAR_MAX;
+	current.red = (unsigned char)color_result;
+	color_result = current.green * ambient->ratio
+		* ((double)ambient->color.green / UCHAR_MAX);
+	if (color_result > UCHAR_MAX)
+		color_result = UCHAR_MAX;
+	current.green = (unsigned char)color_result;
+	color_result = current.blue * ambient->ratio
+		* ((double)ambient->color.blue / UCHAR_MAX);
+	if (color_result > UCHAR_MAX)
+		color_result = UCHAR_MAX;
+	current.blue = (unsigned char)color_result;
+	*color = (current.red << 16) | (current.green << 8) | current.blue;
+}
 
 static int	get_color(t_scene *scene, double x, double y)
 {
@@ -26,8 +52,7 @@ static int	get_color(t_scene *scene, double x, double y)
 			&hit, (double []){x, y});
 		iter = iter->next;
 	}
-	if (!hit.intersection)
-		return (BACKGORUND_COLOR);
+	apply_ambient_light(&(hit.color), scene->ambient);
 	return (hit.color);
 }
 

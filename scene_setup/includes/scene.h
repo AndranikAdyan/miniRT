@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/03 00:12:45 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/09 17:07:00 by aadyan           ###   ########.fr       */
+/*   Created: 2025/07/17 12:35:18 by saslanya          #+#    #+#             */
+/*   Updated: 2025/07/17 12:36:56 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@
 size_t	params_count(const char **params);
 bool	params_config(const char **param, size_t mand_count);
 bool	data_analysis(t_scene *scene);
-bool	validation(int	argc, char **argv);
 // Some utils part
-size_t	params_count(const char **params);
 bool	is_valid_f(const char *fname);
 void	free_split(char ***s);
 double	ft_atof(const char *arg);

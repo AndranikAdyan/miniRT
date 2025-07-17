@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:38:22 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/09 17:11:10 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/17 12:34:05 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,16 @@ static bool	check_param(const char *s)
 	return (true);
 }
 
+size_t	params_count(const char **params)
+{
+	size_t	count;
+
+	count = 0;
+	while (params && params[count])
+		++count;
+	return (count);
+}
+
 bool	params_config(const char **params, size_t mand_count)
 {
 	if (!params || params_count((const char **)(params + 1)) != mand_count)
@@ -64,34 +74,13 @@ bool	params_config(const char **params, size_t mand_count)
 bool	data_analysis(t_scene *scene)
 {
 	char	status;
-	t_list	*iter;
 
 	status = 0;
 	if (scene->camera)
 		status |= 1 << 2;
-	iter = scene->lights;
-	while (iter)
-	{
-		if (((t_light *)iter->content)->type == LIGHT)
-			status |= 1 << 1;
-		else if (((t_light *)iter->content)->type == AMBIENT)
-			status |= 1;
-		iter = iter->next;
-	}
+	if (scene->ambient)
+		status |= 1;
+	if (scene->lights)
+		status |= 1 << 1;
 	return ((status & 0x07) == 0x07);
-}
-
-bool	validation(int argc, char **argv)
-{
-	if (argc != 2)
-	{
-		printf("Usage: %s <scene_file.rt>\n", argv[0]);
-		return (false);
-	}
-	if (!is_valid_f(argv[1]))
-	{
-		printf("Invalid file format. Expected .rt file.\n");
-		return (false);
-	}
-	return (true);
 }

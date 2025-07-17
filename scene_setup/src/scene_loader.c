@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:08:37 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/09 19:24:17 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/17 11:31:12 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	free_scene(t_scene **scene)
 	if (!*scene)
 		return ;
 	free((*scene)->camera);
+	free((*scene)->ambient);
 	ft_lstclear(&((*scene)->objects), free);
 	ft_lstclear(&((*scene)->lights), free);
 	free(*scene);
@@ -44,9 +45,16 @@ static bool	data_addition(const char **params, t_scene *scene
 	if (**params == CAMERA && !*(*params + 1))
 		return (camera_config(params, &(scene->camera)));
 	else if (((**params == AMBIENT || **params == LIGHT) && !*(*params + 1))
-		&& (light_config(params, &light)
-			&& add_to_list(&(scene->lights), light)))
-		return (true);
+		&& (light_config(params, &light)))
+	{
+		if (**params == AMBIENT)
+		{
+			if (scene->ambient)
+				return (false);
+			return (scene->ambient = light, true);
+		}
+		return (add_to_list(&(scene->lights), light));
+	}
 	else if ((!ft_strncmp(*params, "sp", 3) || !ft_strncmp(*params, "pl", 3)
 			|| !ft_strncmp(*params, "cy", 3)) && object_config(params, &object)
 		&& add_to_list(&(scene->objects), object))
