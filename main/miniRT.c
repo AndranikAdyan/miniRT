@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 17:45:28 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/17 12:29:51 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/20 03:52:59 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,35 @@ bool	validation(int argc, char **argv)
 	return (true);
 }
 
+static bool	multi_rendering(t_mlx *mlx, int i)
+{
+	t_render_threads	*threads;
+
+	threads = ft_calloc(THREADS_SIZE, sizeof(t_render_threads));
+	if (!threads)
+		return (false);
+	while (++i < THREADS_SIZE)
+	{
+		threads[i].mlx = mlx;
+		threads[i].col_start = 0;
+		threads[i].col_end = WIN_WEIGHT;
+		threads[i].row_start = i * WIN_HEIGHT / THREADS_SIZE;
+		if (i == THREADS_SIZE -1)
+			threads[i].row_end = WIN_HEIGHT;
+		else
+			threads[i].row_end = (i + 1) * WIN_HEIGHT / THREADS_SIZE;
+		if (pthread_create(&threads[i].thread, NULL, draw_frame, &threads[i]))
+		{
+			while (i)
+				pthread_join(threads[i--].thread, NULL);
+			return (free(threads), false);
+		}
+	}
+	while (--i)
+		pthread_join(threads[i].thread, NULL);
+	return (free(threads), true);
+}
+
 int	main(int argc, char **argv)
 {
 	t_mlx	*mlx;
@@ -48,7 +77,7 @@ int	main(int argc, char **argv)
 	if (!mlx)
 		return (1);
 	hooks(mlx);
-	draw_frame(mlx);
+	multi_rendering(mlx, -1);
 	printf("Done\n");
 	mlx_loop(mlx->mlx);
 	return (0);
