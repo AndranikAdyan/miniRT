@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 18:23:52 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/20 03:52:13 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/20 13:31:35 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define WIN_WEIGHT 1080
 # define WIN_HEIGHT 720
-# define THREADS_SIZE 4
+# define THREADS_SIZE 4 // 16 is more stable and faster
 # define _USE_MATH_DEFINES
 
 # include <unistd.h>

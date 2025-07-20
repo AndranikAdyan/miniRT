@@ -6,12 +6,12 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 18:46:08 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/09 17:10:24 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/20 13:33:53 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INITILIZATION_H
-# define INITILIZATION_H
+#ifndef MLX_INITIALIZATION_H
+# define MLX_INITIALIZATION_H
 
 # include "miniRT.h"
 # include "scene_types.h"

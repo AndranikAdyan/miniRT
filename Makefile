@@ -18,7 +18,7 @@ SRC := $(shell find . -path "./$(LIBFT_DIR)" -prune -o -path "./$(MLX_DIR)" -pru
 
 INCLUDES := $(shell find . -name "*.h" -exec dirname {} \; | sed 's/^/-I/')
 
-HEADERS := $(shell find . -path './libs/minilibx-linux' -prune -o -name "*.h" -print)
+HEADERS := $(shell find . -name "*.h")
 
 BUILD_DIR = build
 OBJ := $(patsubst ./%.c,$(BUILD_DIR)/%.o,$(SRC))
@@ -61,7 +61,7 @@ fclean: clean
 	@echo "🗑  ${RED}Remove Executable Files...${RESET}"
 
 norm:
-	@norminette $(SRC) ./library/libft ./library/get_next_line
+	@norminette $(SRC) ./library/libft ./library/get_next_line $(shell find . -name "*.h" ! -path "./library/minilibx-linux/*")
 
 re: fclean mlxclean all
 

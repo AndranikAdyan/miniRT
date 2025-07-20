@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 02:43:19 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/20 03:51:01 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/20 13:22:45 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,5 @@ void	*draw_frame(void *data)
 						+ (int)x * (mlx->img_data->bits_per_pixel / 8)))
 				= get_color(mlx->scene, x, y);
 	}
-	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->img_data->img, 0, 0);
 	return (NULL);
 }
