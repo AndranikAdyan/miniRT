@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:09 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/17 00:18:30 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/20 23:18:44 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,63 +57,4 @@ double	intersection_plane(t_scene *scene,
 	if (t >= 0)
 		return (t);
 	return (INFINITY);
-}
-
-static double	get_discriminant(t_vec ray, t_vec oc, t_vec axis, double radius)
-{
-	t_vec	d_cross_a;
-	t_vec	oc_cross_a;
-	double	vars[3];
-	double	discriminant;
-
-	d_cross_a = cross_product(ray, axis);
-	oc_cross_a = cross_product(oc, axis);
-	vars[0] = dot_product(d_cross_a, d_cross_a);
-	vars[1] = 2.0 * dot_product(d_cross_a, oc_cross_a);
-	vars[2] = dot_product(oc_cross_a, oc_cross_a) - radius * radius;
-	discriminant = vars[1] * vars[1] - 4.0 * vars[0] * vars[2];
-	return (discriminant);
-}
-
-static double	check_height(t_cylinder *cy, t_vec cam_pos, t_vec ray, double t)
-{
-	t_vec	p;
-	t_vec	v;
-	double	h;
-
-	p = vec_add(cam_pos, scalar_product(ray, t));
-	v = vec_sub(p, cy->pos);
-	h = dot_product(v, cy->dir);
-	if (h >= 0 && h <= cy->height)
-		return (t);
-	return (INFINITY);
-}
-
-double	intersection_cylinder(t_scene *scene, t_cylinder *cy,
-	double x, double y)
-{
-	t_vec	ray;
-	t_vec	oc;
-	double	discriminant;
-	double	t[2];
-	double	tmp;
-
-	ray = normalize(compute_ray(scene->camera, x, y));
-	oc = vec_sub(scene->camera->pos, cy->pos);
-	discriminant = get_discriminant(ray, oc, cy->dir, cy->radius);
-	if (discriminant < 0)
-		return (INFINITY);
-	t[0] = (-2.0 * dot_product(cross_product(ray, cy->dir),
-				cross_product(oc, cy->dir)) - sqrt(discriminant))
-		/ (2.0 * dot_product(cross_product(ray, cy->dir),
-				cross_product(ray, cy->dir)));
-	t[1] = (-2.0 * dot_product(cross_product(ray, cy->dir),
-				cross_product(oc, cy->dir)) + sqrt(discriminant))
-		/ (2.0 * dot_product(cross_product(ray, cy->dir),
-				cross_product(ray, cy->dir)));
-	tmp = check_height(cy, scene->camera->pos, ray, t[0]);
-	if (tmp != INFINITY)
-		return (tmp);
-	tmp = check_height(cy, scene->camera->pos, ray, t[1]);
-	return (tmp);
 }
