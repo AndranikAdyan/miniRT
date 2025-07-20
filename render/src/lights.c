@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:47:11 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/20 03:06:53 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/20 13:56:41 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ void	apply_ambient_light(int *color, t_light *ambient)
 	current.green = (*color >> 8) & 0xFF;
 	current.blue = *color & 0xFF;
 	color_result = current.red * ambient->ratio
-		* ((double)ambient->color.red / UCHAR_MAX);
+		* ((double)ambient->color.red / (double)UCHAR_MAX);
 	if (color_result > UCHAR_MAX)
 		color_result = UCHAR_MAX;
 	current.red = (unsigned char)color_result;
 	color_result = current.green * ambient->ratio
-		* ((double)ambient->color.green / UCHAR_MAX);
+		* ((double)ambient->color.green / (double)UCHAR_MAX);
 	if (color_result > UCHAR_MAX)
 		color_result = UCHAR_MAX;
 	current.green = (unsigned char)color_result;
 	color_result = current.blue * ambient->ratio
-		* ((double)ambient->color.blue / UCHAR_MAX);
+		* ((double)ambient->color.blue / (double)UCHAR_MAX);
 	if (color_result > UCHAR_MAX)
 		color_result = UCHAR_MAX;
 	current.blue = (unsigned char)color_result;
@@ -52,6 +52,29 @@ static void	set_configs(t_light *light, t_hit *hit,
 					config->reflect_dir), 0.0), 32) * light->ratio;
 }
 
+static void	calculate_colors(t_light_config *config, t_light *light,
+			t_hit *hit, double *rgb)
+{
+	rgb[0] += (int)((((hit->color >> 16) & 0xFF)
+				* ((double)light->color.red / 255.0))
+			* config->diff_intensity + ((double)light->color.red
+				* config->spec_intensity));
+	rgb[1] += (int)((((hit->color >> 8) & 0xFF)
+				* ((double)light->color.green / 255.0))
+			* config->diff_intensity + ((double)light->color.green
+				* config->spec_intensity));
+	rgb[2] += (int)(((hit->color & 0xFF)
+				* ((double)light->color.blue / 255.0))
+			* config->diff_intensity + ((double)light->color.blue
+				* config->spec_intensity));
+	if (rgb[0] > UCHAR_MAX)
+		rgb[0] = UCHAR_MAX;
+	if (rgb[1] > UCHAR_MAX)
+		rgb[1] = UCHAR_MAX;
+	if (rgb[2] > UCHAR_MAX)
+		rgb[2] = UCHAR_MAX;
+}
+
 void	apply_spot_lighting(t_scene *scene, t_hit *hit,
 		t_list *light_iter, double *rgb)
 {
@@ -63,18 +86,7 @@ void	apply_spot_lighting(t_scene *scene, t_hit *hit,
 		{
 			set_configs((t_light *)light_iter->content, hit, &config,
 				normalize(vec_sub(hit->point, scene->camera->pos)));
-			rgb[0] += (int)(((hit->color >> 16) & 0xFF)
-					* config.diff_intensity + 255 * config.spec_intensity);
-			rgb[1] += (int)(((hit->color >> 8) & 0xFF)
-					* config.diff_intensity + 255 * config.spec_intensity);
-			rgb[2] += (int)((hit->color & 0xFF)
-					* config.diff_intensity + 255 * config.spec_intensity);
-			if (rgb[0] > (double)UCHAR_MAX)
-				rgb[0] = UCHAR_MAX;
-			if (rgb[1] > (double)UCHAR_MAX)
-				rgb[1] = UCHAR_MAX;
-			if (rgb[2] > (double)UCHAR_MAX)
-				rgb[2] = UCHAR_MAX;
+			calculate_colors(&config, (t_light *)light_iter->content, hit, rgb);
 		}
 		light_iter = light_iter->next;
 	}
