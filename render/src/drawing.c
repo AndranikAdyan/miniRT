@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 02:43:19 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/20 13:22:45 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/22 12:52:43 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ static int	get_color(t_scene *scene, double x, double y)
 {
 	t_list	*iter;
 	t_hit	hit;
-	double	rgb[3];
 
 	iter = scene->objects;
-	ft_bzero(rgb, sizeof(rgb));
 	ft_bzero(&hit, sizeof(t_hit));
 	hit.distance = INFINITY;
 	while (iter)
@@ -29,8 +27,8 @@ static int	get_color(t_scene *scene, double x, double y)
 		iter = iter->next;
 	}
 	apply_ambient_light(&(hit.color), scene->ambient);
-	apply_spot_lighting(scene, &hit, scene->lights, rgb);
-	return (hit.color);
+	apply_spot_lighting(scene, &hit, scene->lights, hit.color);
+	return (linear_to_gammaint(&(hit.color)));
 }
 
 static t_vec	get_normal(t_object *obj, const t_vec point)
@@ -57,8 +55,9 @@ void	set_hit_values(t_hit *hit, t_rgb color,
 	t_object *figure, t_vec point)
 {
 	hit->intersection = true;
-	hit->color = ((color.red & 0xFF) << 16)
-		| ((color.green & 0xFF) << 8) | (color.blue & 0xFF);
+	hit->color.red = color.red;
+	hit->color.green = color.green;
+	hit->color.blue = color.blue;
 	hit->figure = figure;
 	hit->point = point;
 	hit->normal = get_normal(figure, point);

@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:16:39 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/17 11:21:07 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/22 11:37:45 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 
 typedef struct s_rgb
 {
-	unsigned char	red;
-	unsigned char	green;
-	unsigned char	blue;
+	double	red;
+	double	green;
+	double	blue;
 }	t_rgb;
 
 typedef struct s_vec

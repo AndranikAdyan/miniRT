@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:35:18 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/17 12:36:56 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/22 12:40:26 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@
 # define FFORMAT ".rt"
 # define FSIZE 4
 # define VEC_ARG_SIZE 3
+
+// EOTF - OETF
+double	eotf(double val);
+double	oetf(double val);
+int		linear_to_gammaint(t_rgb *color);
 
 // Validation part
 size_t	params_count(const char **params);

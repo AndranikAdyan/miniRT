@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:59:50 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/07 00:19:23 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/22 12:38:54 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,22 @@ bool	init_vec(const char *s, t_vec *pos, double min, double max)
 bool	init_color(const char *s, t_rgb *color)
 {
 	char	**param;
-	int		value[3];
-	bool	values_status;
 
 	param = ft_split(s, ',');
 	if (!param || params_count((const char **)param) != 3)
+		return (free_split(&param), false);
+	color->red = ft_atof(param[0]);
+	color->green = ft_atof(param[1]);
+	color->blue = ft_atof(param[2]);
+	free_split(&param);
+	if (!between_range(color->red, 0.0, 255.0)
+		|| !between_range(color->green, 0.0, 255.0)
+		|| !between_range(color->blue, 0.0, 255.0))
 		return (false);
-	value[0] = ft_atoi(param[0]);
-	value[1] = ft_atoi(param[1]);
-	value[2] = ft_atoi(param[2]);
-	values_status = (value[0] >= 0 && value[0] <= UCHAR_MAX)
-		&& (value[1] >= 0 && value[1] <= UCHAR_MAX)
-		&& (value[2] >= 0 && value[2] <= UCHAR_MAX);
-	if (values_status)
-	{
-		color->red = value[0];
-		color->green = value[1];
-		color->blue = value[2];
-	}
-	return (free_split(&param), values_status);
+	color->red = eotf(color->red);
+	color->green = eotf(color->green);
+	color->blue = eotf(color->blue);
+	return (true);
 }
 
 double	ft_atof(const char *s)

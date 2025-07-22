@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:07 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/20 03:49:42 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/22 12:01:51 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 typedef struct s_hit
 {
 	bool		intersection;
-	int			color;
+	t_rgb		color;
 	double		distance;
 	t_object	*figure;
 	t_vec		point;

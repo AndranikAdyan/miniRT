@@ -6,36 +6,20 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:47:11 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/20 13:56:41 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/22 12:55:25 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "light.h"
 
-void	apply_ambient_light(int *color, t_light *ambient)
+void	apply_ambient_light(t_rgb *color, t_light *ambient)
 {
-	double	color_result;
-	t_rgb	current;
-
-	current.red = (*color >> 16) & 0xFF ;
-	current.green = (*color >> 8) & 0xFF;
-	current.blue = *color & 0xFF;
-	color_result = current.red * ambient->ratio
-		* ((double)ambient->color.red / (double)UCHAR_MAX);
-	if (color_result > UCHAR_MAX)
-		color_result = UCHAR_MAX;
-	current.red = (unsigned char)color_result;
-	color_result = current.green * ambient->ratio
-		* ((double)ambient->color.green / (double)UCHAR_MAX);
-	if (color_result > UCHAR_MAX)
-		color_result = UCHAR_MAX;
-	current.green = (unsigned char)color_result;
-	color_result = current.blue * ambient->ratio
-		* ((double)ambient->color.blue / (double)UCHAR_MAX);
-	if (color_result > UCHAR_MAX)
-		color_result = UCHAR_MAX;
-	current.blue = (unsigned char)color_result;
-	*color = (current.red << 16) | (current.green << 8) | current.blue;
+	color->red *= ambient->ratio * ambient->color.red;
+	color->green *= ambient->ratio * ambient->color.green;
+	color->blue *= ambient->ratio * ambient->color.blue;
+	color->red = fmin(1.0, fmax(0.0, color->red));
+	color->green = fmin(1.0, fmax(0.0, color->green));
+	color->blue = fmin(1.0, fmax(0.0, color->blue));
 }
 
 static void	set_configs(t_light *light, t_hit *hit,
@@ -52,43 +36,32 @@ static void	set_configs(t_light *light, t_hit *hit,
 					config->reflect_dir), 0.0), 32) * light->ratio;
 }
 
-static void	calculate_colors(t_light_config *config, t_light *light,
-			t_hit *hit, double *rgb)
-{
-	rgb[0] += (int)((((hit->color >> 16) & 0xFF)
-				* ((double)light->color.red / 255.0))
-			* config->diff_intensity + ((double)light->color.red
-				* config->spec_intensity));
-	rgb[1] += (int)((((hit->color >> 8) & 0xFF)
-				* ((double)light->color.green / 255.0))
-			* config->diff_intensity + ((double)light->color.green
-				* config->spec_intensity));
-	rgb[2] += (int)(((hit->color & 0xFF)
-				* ((double)light->color.blue / 255.0))
-			* config->diff_intensity + ((double)light->color.blue
-				* config->spec_intensity));
-	if (rgb[0] > UCHAR_MAX)
-		rgb[0] = UCHAR_MAX;
-	if (rgb[1] > UCHAR_MAX)
-		rgb[1] = UCHAR_MAX;
-	if (rgb[2] > UCHAR_MAX)
-		rgb[2] = UCHAR_MAX;
-}
-
 void	apply_spot_lighting(t_scene *scene, t_hit *hit,
-		t_list *light_iter, double *rgb)
+		t_list *light_iter, t_rgb base)
 {
 	t_light_config	config;
+	t_light			*light;
 
 	while (light_iter)
 	{
-		if (!shadow(scene, hit->point, ((t_light *)light_iter->content)->pos))
+		light = (t_light *)light_iter->content;
+		if (!shadow(scene, hit->point, light->pos))
 		{
-			set_configs((t_light *)light_iter->content, hit, &config,
+			set_configs(light, hit, &config,
 				normalize(vec_sub(hit->point, scene->camera->pos)));
-			calculate_colors(&config, (t_light *)light_iter->content, hit, rgb);
+			hit->color.red += base.red * light->color.red
+				* config.diff_intensity
+				+ light->color.red * config.spec_intensity;
+			hit->color.green += base.green * light->color.green
+				* config.diff_intensity
+				+ light->color.green * config.spec_intensity;
+			hit->color.blue += base.blue * light->color.blue
+				* config.diff_intensity
+				+ light->color.blue * config.spec_intensity;
+			hit->color.red = fmin(1.0, hit->color.red);
+			hit->color.green = fmin(1.0, hit->color.green);
+			hit->color.blue = fmin(1.0, hit->color.blue);
 		}
 		light_iter = light_iter->next;
 	}
-	hit->color = ((int)rgb[0] << 16) | ((int)rgb[1] << 8) | (int)rgb[2];
 }
