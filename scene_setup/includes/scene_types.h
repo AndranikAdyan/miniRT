@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene_types.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:16:39 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/22 11:37:45 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/23 00:39:37 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define SPHERE 's'
 # define PLANE 'p'
 # define CYLINDER 'c'
+# define CONE 'o'
 
 typedef struct s_rgb
 {
@@ -42,6 +43,16 @@ typedef struct s_camera
 	t_vec	dir;
 	int		fov;
 }	t_camera;
+
+typedef struct s_cone
+{
+	t_vec	pos;
+	t_vec	dir;
+	t_vec	point;
+	double	radius;
+	double	height;
+	t_rgb	color;
+}	t_cone;
 
 typedef struct s_sphere
 {
@@ -71,6 +82,7 @@ typedef union u_object_data
 	t_sphere	sphere;
 	t_plane		plane;
 	t_cylinder	cylinder;
+	t_cone		cone;
 }	t_object_data;
 
 typedef struct s_object

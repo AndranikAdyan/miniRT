@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:07 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/22 12:01:51 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/23 00:46:36 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,7 @@ double	intersection_plane(t_scene *scene,
 			t_plane *plane, double x, double y);
 double	intersection_cylinder(t_scene *scene,
 			t_cylinder *cy, double x, double y);
+double	intersection_cone(t_scene *scene,
+			t_cone *cone, double x, double y);
 
 #endif

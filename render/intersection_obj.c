@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 00:20:36 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/20 02:57:24 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/23 00:43:53 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ static t_rgb	handle_cylinder(t_scene *scene, t_object *obj,
 	return (obj->variant.cylinder.color);
 }
 
+static t_rgb	handle_cone(t_scene *scene, t_object *obj,
+	double *tmp_min, double *xy)
+{
+	*tmp_min = intersection_cone(scene,
+			&obj->variant.cone, xy[0], xy[1]);
+	return (obj->variant.cone.color);
+}
+
 void	intersection_with_object(t_scene *scene,
 		t_object *obj, t_hit *hit, double *xy)
 {
@@ -44,17 +52,16 @@ void	intersection_with_object(t_scene *scene,
 	t_vec	ray_dir;
 	t_vec	hit_point;
 
+	color = (t_rgb){0, 0, 0};
+	tmp_min = INFINITY;
 	if (obj->type == SPHERE)
 		color = handle_sphere(scene, obj, &tmp_min, xy);
 	else if (obj->type == PLANE)
 		color = handle_plane(scene, obj, &tmp_min, xy);
 	else if (obj->type == CYLINDER)
 		color = handle_cylinder(scene, obj, &tmp_min, xy);
-	else
-	{
-		tmp_min = INFINITY;
-		color = (t_rgb){0, 0, 0};
-	}
+	else if (obj->type == CONE)
+		color = handle_cone(scene, obj, &tmp_min, xy);
 	if (tmp_min < hit->distance)
 	{
 		ray_dir = compute_ray(scene->camera, xy[0], xy[1]);

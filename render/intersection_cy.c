@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:18:48 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/20 23:27:54 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/23 00:50:43 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ double	intersection_cylinder(t_scene *s, t_cylinder *cy, double x, double y)
 	double	t_disk;
 
 	cam = s->camera->pos;
-	ray = normalize(compute_ray(s->camera, x, y));
+	ray = compute_ray(s->camera, x, y);
 	t_final = intersect_body(cy, ray, cam);
 	top = vec_add(cy->pos, scalar_product(cy->dir, cy->height));
 	t_disk = intersect_disk(ray, cy->pos, cam, cy);
