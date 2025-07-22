@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:35:18 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/22 12:40:26 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/23 00:07:14 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <math.h>
 # include "scene_types.h"
 # include "get_next_line.h"
+# include "vectors_formulas.h"
 
 # define FFORMAT ".rt"
 # define FSIZE 4

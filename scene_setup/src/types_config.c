@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types_config.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:40:38 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/17 12:28:40 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/23 00:07:22 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static bool	cylinder_config(const char **params, t_object **obj)
 		|| !init_vec(params[2], &((*obj)->variant.cylinder.dir), -1.0, 1.0)
 		|| !init_color(params[5], &((*obj)->variant.cylinder.color)))
 		return (free(*obj), *obj = NULL, false);
+	(*obj)->variant.cylinder.dir = normalize((*obj)->variant.cylinder.dir);
 	(*obj)->variant.cylinder.radius = ft_atof(params[3]) / 2.0;
 	(*obj)->variant.cylinder.height = ft_atof(params[4]);
 	if ((*obj)->variant.cylinder.radius <= 0.0
