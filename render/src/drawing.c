@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 02:43:19 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/22 12:52:43 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:59:43 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ static int	get_color(t_scene *scene, double x, double y)
 			&hit, (double []){x, y});
 		iter = iter->next;
 	}
-	apply_ambient_light(&(hit.color), scene->ambient);
-	apply_spot_lighting(scene, &hit, scene->lights, hit.color);
+	if (hit.color.red != 0.0 || hit.color.green != 0.0 || hit.color.blue != 0.0)
+	{
+		apply_ambient_light(&(hit.color), scene->ambient);
+		apply_spot_lighting(scene, &hit, scene->lights, hit.color);
+	}
 	return (linear_to_gammaint(&(hit.color)));
 }
 

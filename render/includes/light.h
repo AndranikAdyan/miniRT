@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:02:42 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/22 12:52:20 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/22 19:26:20 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ typedef struct s_light_config
 {
 	t_vec	light_dir;
 	t_vec	view_dir;
-	t_vec	reflect_dir;
 	double	diff_intensity;
 	double	spec_intensity;
 }	t_light_config;

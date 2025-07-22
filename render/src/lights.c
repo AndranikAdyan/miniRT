@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:47:11 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/22 12:55:25 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/22 19:26:01 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ void	apply_ambient_light(t_rgb *color, t_light *ambient)
 static void	set_configs(t_light *light, t_hit *hit,
 		t_light_config *config, t_vec ray_dir)
 {
+	t_vec	halfway;
+
 	config->light_dir = normalize(vec_sub(light->pos, hit->point));
 	config->view_dir = scalar_product(ray_dir, -1);
 	config->diff_intensity = fmax(0.0, dot_product(hit->normal,
 				config->light_dir)) * light->ratio;
-	config->reflect_dir = vec_sub(scalar_product(hit->normal, 2
-				* dot_product(hit->normal, config->light_dir)),
-			config->light_dir);
-	config->spec_intensity = pow(fmax(dot_product(config->view_dir,
-					config->reflect_dir), 0.0), 32) * light->ratio;
+	halfway = normalize(vec_add(config->view_dir, config->light_dir));
+	config->spec_intensity = pow(fmax(dot_product(hit->normal,
+					halfway), 0.0), 32) * light->ratio;
 }
 
 void	apply_spot_lighting(t_scene *scene, t_hit *hit,
