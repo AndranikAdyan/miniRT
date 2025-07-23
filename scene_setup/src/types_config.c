@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:40:38 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/24 01:11:11 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/24 02:20:44 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,11 @@ static bool	cone_config(const char **params, t_object **obj)
 		return (false);
 	if (!init_vec(params[1], &((*obj)->variant.cone.pos), 0.0, 0.0)
 		|| !init_vec(params[2], &((*obj)->variant.cone.dir), 0.0, 0.0)
-		|| !init_vec(params[3], &((*obj)->variant.cone.point), 0.0, 0.0)
-		|| !init_color(params[6], &((*obj)->variant.cone.color)))
+		|| !init_color(params[5], &((*obj)->variant.cone.color)))
 		return (free(*obj), *obj = NULL, false);
-	(*obj)->variant.cone.radius = ft_atof(params[4]);
+	(*obj)->variant.cone.radius = ft_atof(params[3]);
 	(*obj)->variant.cone.dir = normalize((*obj)->variant.cone.dir);
-	(*obj)->variant.cone.height = ft_atof(params[5]);
+	(*obj)->variant.cone.height = ft_atof(params[4]);
 	(*obj)->type = CONE;
 	return (true);
 }
@@ -92,7 +91,7 @@ bool	object_config(const char **params, t_object **obj)
 		return (sphere_config(params, obj));
 	if (!ft_strncmp(*params, "cy", 3) && params_config(params, 5))
 		return (cylinder_config(params, obj));
-	if (!ft_strncmp(*params, "co", 3) && (params_config(params, 6)))
+	if (!ft_strncmp(*params, "co", 3) && (params_config(params, 5)))
 		return (cone_config(params, obj));
 	if (!ft_strncmp(*params, "pl", 3) && params_config(params, 3))
 	{
