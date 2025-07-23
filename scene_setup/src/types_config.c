@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:40:38 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/23 00:07:22 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/24 01:11:11 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,20 @@ bool	light_config(const char **params, t_light **light)
 	return (true);
 }
 
-bool	camera_config(const char **params, t_camera **camera)
+static bool	cone_config(const char **params, t_object **obj)
 {
-	if (!params_config(params, 3))
-		return (*camera = NULL, false);
-	*camera = ft_calloc(1, sizeof(t_camera));
-	if (!*camera)
+	*obj = ft_calloc(1, sizeof(t_object));
+	if (!*obj)
 		return (false);
-	if (!init_vec(params[1], &(*camera)->pos, 0.0, 0.0)
-		|| !init_vec(params[2], &(*camera)->dir, -1.0, 1.0))
-		return (free(*camera), *camera = NULL, false);
-	(*camera)->fov = ft_atoi(params[3]);
-	if (!between_range((*camera)->fov, 0.0, 180.0))
-		return (free(*camera), *camera = NULL, false);
+	if (!init_vec(params[1], &((*obj)->variant.cone.pos), 0.0, 0.0)
+		|| !init_vec(params[2], &((*obj)->variant.cone.dir), 0.0, 0.0)
+		|| !init_vec(params[3], &((*obj)->variant.cone.point), 0.0, 0.0)
+		|| !init_color(params[6], &((*obj)->variant.cone.color)))
+		return (free(*obj), *obj = NULL, false);
+	(*obj)->variant.cone.radius = ft_atof(params[4]);
+	(*obj)->variant.cone.dir = normalize((*obj)->variant.cone.dir);
+	(*obj)->variant.cone.height = ft_atof(params[5]);
+	(*obj)->type = CONE;
 	return (true);
 }
 
@@ -91,7 +92,9 @@ bool	object_config(const char **params, t_object **obj)
 		return (sphere_config(params, obj));
 	if (!ft_strncmp(*params, "cy", 3) && params_config(params, 5))
 		return (cylinder_config(params, obj));
-	else if (!ft_strncmp(*params, "pl", 3) && params_config(params, 3))
+	if (!ft_strncmp(*params, "co", 3) && (params_config(params, 6)))
+		return (cone_config(params, obj));
+	if (!ft_strncmp(*params, "pl", 3) && params_config(params, 3))
 	{
 		*obj = ft_calloc(1, sizeof(t_object));
 		if (!*obj)

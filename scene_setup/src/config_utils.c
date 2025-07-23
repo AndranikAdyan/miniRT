@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:59:50 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/22 12:38:54 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/23 23:52:20 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,30 +71,18 @@ bool	init_color(const char *s, t_rgb *color)
 	return (true);
 }
 
-double	ft_atof(const char *s)
+bool	camera_config(const char **params, t_camera **camera)
 {
-	double	param[4];
-
-	param[0] = 0;
-	param[1] = 0;
-	param[2] = 0;
-	param[3] = 1;
-	if (s && (*s == '+' || *s == '-') && ++s)
-		param[3] = (double)((*(s - 1) == '+') - (*(s - 1) == '-'));
-	while (s && *s)
-	{
-		if (ft_isdigit(*s))
-		{
-			param[0] = param[0] * 10.0 + (double)(*s - '0');
-			if (param[2])
-				++param[1];
-		}
-		else if (*s == '.' && !param[2])
-			param[2] = 1.0;
-		else
-			return (0.0);
-		++s;
-	}
-	param[0] *= param[3];
-	return (param[0] / pow(10.0, (int)param[1]));
+	if (!params_config(params, 3))
+		return (*camera = NULL, false);
+	*camera = ft_calloc(1, sizeof(t_camera));
+	if (!*camera)
+		return (false);
+	if (!init_vec(params[1], &(*camera)->pos, 0.0, 0.0)
+		|| !init_vec(params[2], &(*camera)->dir, -1.0, 1.0))
+		return (free(*camera), *camera = NULL, false);
+	(*camera)->fov = ft_atoi(params[3]);
+	if (!between_range((*camera)->fov, 0.0, 180.0))
+		return (free(*camera), *camera = NULL, false);
+	return (true);
 }

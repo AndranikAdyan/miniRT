@@ -24,7 +24,7 @@ BUILD_DIR = build
 OBJ := $(patsubst ./%.c,$(BUILD_DIR)/%.o,$(SRC))
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
 
 all: build configure lib $(NAME)
 

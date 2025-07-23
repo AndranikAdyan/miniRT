@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light_utils.c                                      :+:      :+:    :+:   */
+/*   shadow_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/20 01:39:32 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/20 02:42:10 by saslanya         ###   ########.fr       */
+/*   Created: 2025/07/24 02:12:28 by saslanya          #+#    #+#             */
+/*   Updated: 2025/07/24 02:13:26 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,32 @@ static double	sphere_shadow(const t_vec origin, const t_vec dir,
 	return (INFINITY);
 }
 
-static double	check_height_shadow(t_cylinder *cy, t_vec origin,
-		t_vec dir, double t)
+static double	cone_shadow(t_vec origin, t_vec dir, t_cone *cone)
 {
-	double	h;
+	t_vec	v;
+	double	discriminant;
+	double	t[2];
+	double	val[5];
 
-	h = dot_product(vec_sub(vec_add(origin, scalar_product(dir, t)),
-				cy->pos), cy->dir);
-	if (h >= 0 && h <= cy->height)
-		return (t);
-	else
+	v = vec_sub(origin, cone->pos);
+	val[0] = pow(cone->radius / cone->height, 2.0);
+	val[1] = dot_product(dir, cone->dir);
+	val[2] = dot_product(v, cone->dir);
+	val[3] = dot_product(dir, dir) - (1 + val[0]) * val[1] * val[1];
+	val[4] = 2 * (dot_product(v, dir) - (1 + val[0]) * val[1] * val[2]);
+	discriminant = val[4] * val[4] - 4 * val[3]
+		* (dot_product(v, v) - (1 + val[0]) * val[2] * val[2]);
+	if (discriminant < 0.0)
 		return (INFINITY);
+	t[0] = (-val[4] - sqrt(discriminant)) / (2 * val[3]);
+	if (t[0] >= 0.001
+		&& check_cone_height(cone, origin, dir, t[0]) != INFINITY)
+		return (t[0]);
+	t[1] = (-val[4] + sqrt(discriminant)) / (2 * val[3]);
+	if (t[1] >= 0.001
+		&& check_cone_height(cone, origin, dir, t[1]) != INFINITY)
+		return (t[1]);
+	return (INFINITY);
 }
 
 static double	cylinder_shadow(t_vec origin, t_vec dir, t_cylinder *cy)
@@ -90,32 +105,20 @@ static double	cylinder_shadow(t_vec origin, t_vec dir, t_cylinder *cy)
 	return (INFINITY);
 }
 
-bool	shadow(t_scene *scene, const t_vec hit_point,
-		const t_vec light_pos)
+double	find_hit(t_list *iter, t_vec hit_point, t_vec dir_to_light)
 {
-	t_vec		dir_to_light;
-	double		dist_to_light;
-	double		hit_distance;
-	t_list		*iter;
-
-	dir_to_light = normalize(vec_sub(light_pos, hit_point));
-	dist_to_light = vec_length(vec_sub(light_pos, hit_point));
-	iter = scene->objects;
-	while (iter)
-	{
-		hit_distance = INFINITY;
-		if (((t_object *)iter->content)->type == SPHERE)
-			hit_distance = sphere_shadow(hit_point, dir_to_light,
-					&((t_object *)iter->content)->variant.sphere);
-		else if (((t_object *)iter->content)->type == PLANE)
-			hit_distance = plane_shadow(hit_point, dir_to_light,
-					&((t_object *)iter->content)->variant.plane);
-		else if (((t_object *)iter->content)->type == CYLINDER)
-			hit_distance = cylinder_shadow(hit_point, dir_to_light,
-					&((t_object *)iter->content)->variant.cylinder);
-		if (hit_distance > 0.001 && hit_distance < dist_to_light)
-			return (true);
-		iter = iter->next;
-	}
-	return (false);
+	if (((t_object *)iter->content)->type == SPHERE)
+		return (sphere_shadow(hit_point, dir_to_light,
+				&((t_object *)iter->content)->variant.sphere));
+	else if (((t_object *)iter->content)->type == PLANE)
+		return (plane_shadow(hit_point, dir_to_light,
+				&((t_object *)iter->content)->variant.plane));
+	else if (((t_object *)iter->content)->type == CYLINDER)
+		return (cylinder_shadow(hit_point, dir_to_light,
+				&((t_object *)iter->content)->variant.cylinder));
+	else if (((t_object *)iter->content)->type == CONE)
+		return (cone_shadow(hit_point, dir_to_light,
+				&((t_object *)iter->content)->variant.cone));
+	else
+		return (INFINITY);
 }

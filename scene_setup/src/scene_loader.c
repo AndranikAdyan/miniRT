@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:08:37 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/17 11:31:12 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/24 00:36:25 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,10 @@ static bool	data_addition(const char **params, t_scene *scene
 		}
 		return (add_to_list(&(scene->lights), light));
 	}
-	else if ((!ft_strncmp(*params, "sp", 3) || !ft_strncmp(*params, "pl", 3)
-			|| !ft_strncmp(*params, "cy", 3)) && object_config(params, &object)
+	else if (object_config(params, &object)
 		&& add_to_list(&(scene->objects), object))
 		return (true);
-	return (false);
+	return (free(object), false);
 }
 
 static bool	data_read(int fd, t_scene *scene, char *line)

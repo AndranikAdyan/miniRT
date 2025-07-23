@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:46:25 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/22 12:39:29 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/23 12:36:39 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,32 @@ int	linear_to_gammaint(t_rgb *color)
 	g = (int)(fmin(1.0, fmax(0.0, color->green)) * 255.0 + 0.5);
 	b = (int)(fmin(1.0, fmax(0.0, color->blue)) * 255.0 + 0.5);
 	return ((r << 16) | (g << 8) | b);
+}
+
+double	ft_atof(const char *s)
+{
+	double	param[4];
+
+	param[0] = 0;
+	param[1] = 0;
+	param[2] = 0;
+	param[3] = 1;
+	if (s && (*s == '+' || *s == '-') && ++s)
+		param[3] = (double)((*(s - 1) == '+') - (*(s - 1) == '-'));
+	while (s && *s)
+	{
+		if (ft_isdigit(*s))
+		{
+			param[0] = param[0] * 10.0 + (double)(*s - '0');
+			if (param[2])
+				++param[1];
+		}
+		else if (*s == '.' && !param[2])
+			param[2] = 1.0;
+		else
+			return (0.0);
+		++s;
+	}
+	param[0] *= param[3];
+	return (param[0] / pow(10.0, (int)param[1]));
 }
