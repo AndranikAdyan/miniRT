@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 18:56:04 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/26 01:53:48 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/26 01:55:37 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ static bool	multi_rendering(t_mlx *mlx, int i)
 	return (free(threads), true);
 }
 
-staic int	mouse_click(int button, int x, int y, void *param)
+static int	mouse_click(int button, int x, int y, void *param)
 {
 	t_mlx	*mlx;
 	t_hit	hit;
 	t_list	*iter;
 
-	*mlx = (t_mlx *)param;
+	mlx = (t_mlx *)param;
 	if (button != 1)
 		return (0);
 	ft_bzero(&hit, sizeof(t_hit));
