@@ -12,49 +12,50 @@
 
 #include "intersection.h"
 
-double	intersection_sphere(t_scene *scene,
-		t_sphere *sphere, double x, double y)
+void	intersection_with_sphere(t_scene *scene, t_object *obj,
+			t_hit *hit, t_vec cam_dir)
 {
 	t_vec	l;
-	t_vec	d;
 	double	vars[3];
-	double	dis;
+	double	distance;
 	double	t[2];
 
-	d = compute_ray(scene->camera, x, y);
-	l = vec_sub(scene->camera->pos, sphere->pos);
-	vars[0] = dot_product(d, d);
-	vars[1] = 2.0 * dot_product(l, d);
-	vars[2] = dot_product(l, l) - (sphere->radius * sphere->radius);
-	dis = vars[1] * vars[1] - 4 * vars[0] * vars[2];
-	if (dis < 0)
-		return (INFINITY);
-	t[0] = (-vars[1] - sqrt(dis)) / (2.0 * vars[0]);
-	t[1] = (-vars[1] + sqrt(dis)) / (2.0 * vars[0]);
-	if (t[0] > 0.001 && t[1] > 0.001)
-		return (fmin(t[0], t[1]));
-	else if (t[0] > 0.001)
-		return (t[0]);
-	else if (t[1] > 0.001)
-		return (t[1]);
-	return (INFINITY);
+	l = vec_sub(scene->camera->pos, obj->variant.sphere.pos);
+	vars[0] = dot_product(cam_dir, cam_dir);
+	vars[1] = 2.0 * dot_product(l, cam_dir);
+	vars[2] = dot_product(l, l)
+		- (obj->variant.sphere.radius * obj->variant.sphere.radius);
+	distance = vars[1] * vars[1] - 4 * vars[0] * vars[2];
+	if (distance < 0 || distance >= hit->distance)
+		return ;
+	t[0] = (-vars[1] - sqrt(distance)) / (2.0 * vars[0]);
+	t[1] = (-vars[1] + sqrt(distance)) / (2.0 * vars[0]);
+	if (t[0] > 0.001 || t[1] > 0.001)
+	{
+		hit->distance = t[(t[1] > 0.001) && (t[1] < t[0])];
+		set_hit_values(hit, obj->variant.sphere.color, obj,
+			vec_add(scene->camera->pos,
+				scalar_product(cam_dir, hit->distance)));
+	}
 }
 
-double	intersection_plane(t_scene *scene,
-		t_plane *plane, double x, double y)
+void	intersection_with_plane(t_scene *scene, t_object *obj,
+		t_hit *hit, t_vec cam_dir)
 {
 	double	denom;
-	t_vec	diff;
 	double	t;
-	t_vec	ray;
 
-	ray = compute_ray(scene->camera, x, y);
-	denom = dot_product(plane->normal, ray);
+	denom = dot_product(obj->variant.plane.normal, cam_dir);
 	if (fabs(denom) < 1e-6)
-		return (INFINITY);
-	diff = vec_sub(plane->pos, scene->camera->pos);
-	t = dot_product(diff, plane->normal) / denom;
-	if (t >= 0)
-		return (t);
-	return (INFINITY);
+		return ;
+	t = dot_product(vec_sub(obj->variant.plane.pos,
+				scene->camera->pos),
+			obj->variant.plane.normal) / denom;
+	if (t >= 0 && t < hit->distance)
+	{
+		hit->distance = t;
+		set_hit_values(hit, obj->variant.plane.color, obj,
+			vec_add(scene->camera->pos,
+				scalar_product(cam_dir, hit->distance)));
+	}
 }

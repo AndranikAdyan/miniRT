@@ -48,10 +48,10 @@ void	intersection_with_light(t_scene *scene, t_light *light, t_hit *hit);
 void	*draw_frame(void *data);
 void	set_hit_values(t_hit *hit, t_rgb color,
 			t_object *figure, t_vec point);
-double	intersection_sphere(t_scene *scene,
-			t_sphere *sphere, double x, double y);
-double	intersection_plane(t_scene *scene,
-			t_plane *plane, double x, double y);
+void    intersection_with_sphere(t_scene *scene, t_object *obj,
+            t_hit *hit, t_vec cam_dir);
+void	intersection_with_plane(t_scene *scene, t_object *obj,
+			t_hit *hit, t_vec cam_dir);
 double	intersection_cylinder(t_scene *scene,
 			t_cylinder *cy, double x, double y);
 double	intersection_cone(t_scene *scene,

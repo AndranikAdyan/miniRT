@@ -12,22 +12,6 @@
 
 #include "intersection.h"
 
-static t_rgb	handle_sphere(t_scene *scene, t_object *obj,
-	double *tmp_min, double *xy)
-{
-	*tmp_min = intersection_sphere(scene,
-			&obj->variant.sphere, xy[0], xy[1]);
-	return (obj->variant.sphere.color);
-}
-
-static t_rgb	handle_plane(t_scene *scene, t_object *obj,
-	double *tmp_min, double *xy)
-{
-	*tmp_min = intersection_plane(scene,
-			&obj->variant.plane, xy[0], xy[1]);
-	return (obj->variant.plane.color);
-}
-
 static t_rgb	handle_cylinder(t_scene *scene, t_object *obj,
 	double *tmp_min, double *xy)
 {
@@ -55,9 +39,15 @@ void	intersection_with_object(t_scene *scene,
 	color = (t_rgb){0, 0, 0};
 	tmp_min = INFINITY;
 	if (obj->type == SPHERE)
-		color = handle_sphere(scene, obj, &tmp_min, xy);
+	{
+		intersection_with_sphere(scene, obj, hit, compute_ray(scene->camera, xy[0], xy[1]));
+		return ;
+	}
 	else if (obj->type == PLANE)
-		color = handle_plane(scene, obj, &tmp_min, xy);
+	{
+		intersection_with_plane(scene, obj, hit, compute_ray(scene->camera, xy[0], xy[1]));
+		return ;
+	}
 	else if (obj->type == CYLINDER)
 		color = handle_cylinder(scene, obj, &tmp_min, xy);
 	else if (obj->type == CONE)
