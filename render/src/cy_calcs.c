@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersection_cy.c                                  :+:      :+:    :+:   */
+/*   cy_calcs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/20 23:18:48 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/23 00:50:43 by aadyan           ###   ########.fr       */
+/*   Created: 2025/07/26 00:59:33 by saslanya          #+#    #+#             */
+/*   Updated: 2025/07/26 01:47:29 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "intersection.h"
 
-static double	get_discriminant(t_vec ray, t_vec oc, t_vec axis, double r)
+double	get_discriminant(t_vec ray, t_vec oc, t_vec axis, double r)
 {
 	t_vec	dc;
 	t_vec	ocx;
@@ -28,7 +28,7 @@ static double	get_discriminant(t_vec ray, t_vec oc, t_vec axis, double r)
 	return (b * b - 4 * a * c);
 }
 
-static double	check_height(t_cylinder *cy, t_vec cam, t_vec ray, double t)
+double	check_height(t_cylinder *cy, t_vec cam, t_vec ray, double t)
 {
 	t_vec	p;
 	double	h;
@@ -40,7 +40,7 @@ static double	check_height(t_cylinder *cy, t_vec cam, t_vec ray, double t)
 	return (INFINITY);
 }
 
-static double	intersect_disk(t_vec ray, t_vec center, t_vec cam,
+double	intersect_disk(t_vec ray, t_vec center, t_vec cam,
 	t_cylinder *cy)
 {
 	double	denom;
@@ -59,7 +59,7 @@ static double	intersect_disk(t_vec ray, t_vec center, t_vec cam,
 	return (t);
 }
 
-static double	intersect_body(t_cylinder *cy, t_vec ray, t_vec cam)
+double	intersect_body(t_cylinder *cy, t_vec ray, t_vec cam)
 {
 	t_vec	oc;
 	double	d;
@@ -88,23 +88,18 @@ static double	intersect_body(t_cylinder *cy, t_vec ray, t_vec cam)
 	return (t[2]);
 }
 
-double	intersection_cylinder(t_scene *s, t_cylinder *cy, double x, double y)
+void	get_cy_color(t_cylinder *cy, t_hit *hit)
 {
-	t_vec	ray;
-	t_vec	cam;
-	t_vec	top;
-	double	t_final;
-	double	t_disk;
+	t_vec	rel;
+	double	u;
+	double	v;
+	double	coeff;
 
-	cam = s->camera->pos;
-	ray = compute_ray(s->camera, x, y);
-	t_final = intersect_body(cy, ray, cam);
-	top = vec_add(cy->pos, scalar_product(cy->dir, cy->height));
-	t_disk = intersect_disk(ray, cy->pos, cam, cy);
-	if (t_disk < t_final)
-		t_final = t_disk;
-	t_disk = intersect_disk(ray, top, cam, cy);
-	if (t_disk < t_final)
-		t_final = t_disk;
-	return (t_final);
+	rel = vec_sub(hit->point, cy->pos);
+	u = atan2(rel.z, rel.x) / (2 * M_PI) + 0.5;
+	v = dot_product(rel, cy->dir) / cy->height;
+	coeff = (double)(((int)(u * 10) + (int)(v * 10)) % 2 == 0);
+	hit->color.red = 1.0 * coeff;
+	hit->color.green = 1.0 * coeff;
+	hit->color.blue = 1.0 * coeff;
 }

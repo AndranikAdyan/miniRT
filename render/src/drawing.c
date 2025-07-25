@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 02:43:19 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/22 18:59:43 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/26 01:46:50 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,17 @@ void	set_hit_values(t_hit *hit, t_rgb color,
 	t_object *figure, t_vec point)
 {
 	hit->intersection = true;
-	hit->color.red = color.red;
-	hit->color.green = color.green;
-	hit->color.blue = color.blue;
 	hit->figure = figure;
 	hit->point = point;
 	hit->normal = get_normal(figure, point);
+	if (figure->type == CYLINDER && figure->variant.cylinder.board_mode)
+		get_cy_color(&(figure->variant.cylinder), hit);
+	else
+	{
+		hit->color.red = color.red;
+		hit->color.green = color.green;
+		hit->color.blue = color.blue;
+	}
 }
 
 void	*draw_frame(void *data)

@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:16:39 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/23 00:39:37 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/26 01:04:14 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_cylinder
 	t_vec	pos;
 	t_vec	dir;
 	double	radius;
+	int		board_mode;
 	double	height;
 	t_rgb	color;
 }	t_cylinder;

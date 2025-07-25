@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:07 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/23 00:46:36 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/26 01:43:37 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,22 @@ typedef struct s_render_threads
 	double		row_end;
 }	t_render_threads;
 
+// cone utils
+bool	cone_calculations(t_scene *scene, t_cone *cone,
+			double *t, t_vec ray);
+double	cone_short_distance(t_vec ray_dir, t_vec ray_origin,
+			t_cone *cone, double t[2]);
+// cylinder cylinde_utils
+double	get_discriminant(t_vec ray, t_vec oc, t_vec axis, double r);
+double	check_height(t_cylinder *cy, t_vec cam, t_vec ray, double t);
+double	intersect_disk(t_vec ray, t_vec center, t_vec cam, t_cylinder *cy);
+double	intersect_body(t_cylinder *cy, t_vec ray, t_vec cam);
+void	get_cy_color(t_cylinder *cy, t_hit *hit);
+
 void	intersection_with_object(t_scene *scene, t_object *figure,
 			t_hit *hit, double *xy);
 void	intersection_with_light(t_scene *scene, t_light *light, t_hit *hit);
 void	*draw_frame(void *data);
 void	set_hit_values(t_hit *hit, t_rgb color,
 			t_object *figure, t_vec point);
-void    intersection_with_sphere(t_scene *scene, t_object *obj,
-            t_hit *hit, t_vec cam_dir);
-void	intersection_with_plane(t_scene *scene, t_object *obj,
-			t_hit *hit, t_vec cam_dir);
-double	intersection_cylinder(t_scene *scene,
-			t_cylinder *cy, double x, double y);
-double	intersection_cone(t_scene *scene,
-			t_cone *cone, double x, double y);
-
 #endif
