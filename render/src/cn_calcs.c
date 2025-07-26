@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cn_calcs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:58:40 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/26 00:58:49 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/26 22:28:10 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	cone_calculations(t_scene *scene, t_cone *cone,
 	t_vec	tmp_vecs[3];
 	double	vars[4];
 
-	vars[0] = cone->radius / cone->height;
+	vars[0] = cone->diameter / cone->height;
 	vars[0] = vars[0] * vars[0];
 	tmp_vecs[0] = vec_sub(scene->camera->pos, cone->pos);
 	vars[1] = dot_product(ray, cone->dir);

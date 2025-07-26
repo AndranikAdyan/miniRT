@@ -58,7 +58,7 @@ static void	print_objects(const t_list *objects)
 			printf("Sphere:\n");
 			printf("  pos = (%.2f, %.2f, %.2f)\n", obj->variant.sphere.pos.x,
 				obj->variant.sphere.pos.y, obj->variant.sphere.pos.z);
-			printf("  radius = %.2f\n", obj->variant.sphere.radius);
+			printf("  diameter = %.2f\n", obj->variant.sphere.diameter);
 			printf("  color = (%d, %d, %d)\n", obj->variant.sphere.color.red,
 				obj->variant.sphere.color.green, obj->variant.sphere.color.blue);
 		}
@@ -79,7 +79,7 @@ static void	print_objects(const t_list *objects)
 				obj->variant.cylinder.pos.y, obj->variant.cylinder.pos.z);
 			printf("  dir = (%.2f, %.2f, %.2f)\n", obj->variant.cylinder.dir.x,
 				obj->variant.cylinder.dir.y, obj->variant.cylinder.dir.z);
-			printf("  radius = %.2f\n", obj->variant.cylinder.radius);
+			printf("  diameter = %.2f\n", obj->variant.cylinder.diameter);
 			printf("  height = %.2f\n", obj->variant.cylinder.height);
 			printf("  color = (%d, %d, %d)\n", obj->variant.cylinder.color.red,
 				obj->variant.cylinder.color.green, obj->variant.cylinder.color.blue);

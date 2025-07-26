@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:16:39 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/26 01:04:14 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/26 22:31:27 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@
 # define PLANE 'p'
 # define CYLINDER 'c'
 # define CONE 'o'
+
+typedef struct s_texture
+{
+	void	*img;
+	char	*addr;
+	int		width;
+	int		height;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_texture;
 
 typedef struct s_rgb
 {
@@ -49,16 +60,18 @@ typedef struct s_cone
 	t_vec	pos;
 	t_vec	dir;
 	t_vec	point;
-	double	radius;
+	double	diameter;
 	double	height;
 	t_rgb	color;
 }	t_cone;
 
 typedef struct s_sphere
 {
-	t_vec	pos;
-	double	radius; // diameter
-	t_rgb	color;
+	t_vec		pos;
+	double		diameter;
+	int			bump_mump;
+	t_rgb		color;
+	t_texture	texture;
 }	t_sphere;
 
 typedef struct s_plane
@@ -72,7 +85,7 @@ typedef struct s_cylinder
 {
 	t_vec	pos;
 	t_vec	dir;
-	double	radius;
+	double	diameter;
 	int		board_mode;
 	double	height;
 	t_rgb	color;

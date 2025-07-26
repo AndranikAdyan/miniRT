@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:40:38 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/25 00:05:34 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/26 22:28:10 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static bool	cone_config(const char **params, t_object **obj)
 		|| !init_vec(params[2], &((*obj)->variant.cone.dir), 0.0, 0.0)
 		|| !init_color(params[5], &((*obj)->variant.cone.color)))
 		return (free(*obj), *obj = NULL, false);
-	(*obj)->variant.cone.radius = ft_atof(params[3]);
+	(*obj)->variant.cone.diameter = ft_atof(params[3]);
 	(*obj)->variant.cone.dir = normalize((*obj)->variant.cone.dir);
 	(*obj)->variant.cone.height = ft_atof(params[4]);
 	(*obj)->variant.cone.point = vec_add(
@@ -63,8 +63,8 @@ static bool	sphere_config(const char **params, t_object **obj)
 	if (!init_vec(params[1], &((*obj)->variant.sphere.pos), 0.0, 0.0)
 		|| !init_color(params[3], &((*obj)->variant.sphere.color)))
 		return (free(*obj), *obj = NULL, false);
-	(*obj)->variant.sphere.radius = ft_atof(params[2]) / 2.0;
-	if ((*obj)->variant.sphere.radius <= 0.0)
+	(*obj)->variant.sphere.diameter = ft_atof(params[2]) / 2.0;
+	if ((*obj)->variant.sphere.diameter <= 0.0)
 		return (free(*obj), *obj = NULL, false);
 	(*obj)->type = SPHERE;
 	return (true);
@@ -80,9 +80,9 @@ static bool	cylinder_config(const char **params, t_object **obj)
 		|| !init_color(params[5], &((*obj)->variant.cylinder.color)))
 		return (free(*obj), *obj = NULL, false);
 	(*obj)->variant.cylinder.dir = normalize((*obj)->variant.cylinder.dir);
-	(*obj)->variant.cylinder.radius = ft_atof(params[3]) / 2.0;
+	(*obj)->variant.cylinder.diameter = ft_atof(params[3]) / 2.0;
 	(*obj)->variant.cylinder.height = ft_atof(params[4]);
-	if ((*obj)->variant.cylinder.radius <= 0.0
+	if ((*obj)->variant.cylinder.diameter <= 0.0
 		|| (*obj)->variant.cylinder.height <= 0.0)
 		return (free(*obj), *obj = NULL, false);
 	(*obj)->type = CYLINDER;

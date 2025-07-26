@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cy_calcs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:59:33 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/26 01:47:29 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/26 22:28:10 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ double	intersect_disk(t_vec ray, t_vec center, t_vec cam,
 	if (t < 0)
 		return (INFINITY);
 	p = vec_add(cam, scalar_product(ray, t));
-	if (vec_length(vec_sub(p, center)) > cy->radius)
+	if (vec_length(vec_sub(p, center)) > cy->diameter)
 		return (INFINITY);
 	return (t);
 }
@@ -67,7 +67,7 @@ double	intersect_body(t_cylinder *cy, t_vec ray, t_vec cam)
 	double	tmp;
 
 	oc = vec_sub(cam, cy->pos);
-	d = get_discriminant(ray, oc, cy->dir, cy->radius);
+	d = get_discriminant(ray, oc, cy->dir, cy->diameter);
 	if (d < 0)
 		return (INFINITY);
 	t[0] = (-2.0 * dot_product(cross_product(ray, cy->dir),

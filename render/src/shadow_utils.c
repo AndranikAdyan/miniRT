@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:12:28 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/24 02:13:26 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/26 22:28:10 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static double	sphere_shadow(const t_vec origin, const t_vec dir,
 	oc = vec_sub(origin, sphere->pos);
 	abc[0] = dot_product(dir, dir);
 	abc[1] = 2.0 * dot_product(oc, dir);
-	abc[2] = dot_product(oc, oc) - sphere->radius * sphere->radius;
+	abc[2] = dot_product(oc, oc) - sphere->diameter * sphere->diameter;
 	discriminant = abc[1] * abc[1] - 4 * abc[0] * abc[2];
 	if (discriminant < 0.0)
 		return (INFINITY);
@@ -61,7 +61,7 @@ static double	cone_shadow(t_vec origin, t_vec dir, t_cone *cone)
 	double	val[5];
 
 	v = vec_sub(origin, cone->pos);
-	val[0] = pow(cone->radius / cone->height, 2.0);
+	val[0] = pow(cone->diameter / cone->height, 2.0);
 	val[1] = dot_product(dir, cone->dir);
 	val[2] = dot_product(v, cone->dir);
 	val[3] = dot_product(dir, dir) - (1 + val[0]) * val[1] * val[1];
@@ -92,7 +92,7 @@ static double	cylinder_shadow(t_vec origin, t_vec dir, t_cylinder *cy)
 	cross[1] = cross_product(vec_sub(origin, cy->pos), cy->dir);
 	vars[0] = dot_product(cross[0], cross[0]);
 	vars[1] = 2.0 * dot_product(cross[0], cross[1]);
-	vars[2] = dot_product(cross[1], cross[1]) - (cy->radius * cy->radius);
+	vars[2] = dot_product(cross[1], cross[1]) - (cy->diameter * cy->diameter);
 	discriminant = vars[1] * vars[1] - 4.0 * vars[0] * vars[2];
 	if (discriminant < 0)
 		return (INFINITY);

@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 13:34:23 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/20 13:34:59 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/26 22:10:40 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,23 @@ static bool	multi_rendering(t_mlx *mlx, int i)
 	return (free(threads), true);
 }
 
+void	init_textures(t_mlx *mlx)
+{
+	t_list	*iter;
+
+	iter = mlx->scene->objects;
+	while (iter)
+	{
+		if (((t_object *)iter->content)->type == SPHERE)
+		{
+			((t_object *)iter->content)->variant.sphere.bump_mump = true;
+			load_texture(mlx->mlx, "./maps/textures/earth.xpm",
+				&((t_object *)iter->content)->variant.sphere.texture);
+		}
+		iter = iter->next;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_mlx			*mlx;
@@ -75,13 +92,14 @@ int	main(int argc, char **argv)
 	struct timeval	end;
 	long			elapsed_ms;
 
+	gettimeofday(&start, NULL);
 	if (!validation(argc, argv))
 		return (1);
 	mlx = init_mlx(argv);
+	init_textures(mlx);
 	if (!mlx)
 		return (1);
 	hooks(mlx);
-	gettimeofday(&start, NULL);
 	if (multi_rendering(mlx, -1))
 		mlx_put_image_to_window(mlx->mlx, mlx->window,
 			mlx->img_data->img, 0, 0);

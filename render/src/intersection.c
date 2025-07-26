@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:09 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/20 23:18:44 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/26 22:28:10 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	intersection_with_sphere(t_scene *scene, t_object *obj,
 	vars[0] = dot_product(cam_dir, cam_dir);
 	vars[1] = 2.0 * dot_product(l, cam_dir);
 	vars[2] = dot_product(l, l)
-		- (obj->variant.sphere.radius * obj->variant.sphere.radius);
+		- (obj->variant.sphere.diameter * obj->variant.sphere.diameter);
 	distance = vars[1] * vars[1] - 4 * vars[0] * vars[2];
 	if (distance < 0 || distance >= hit->distance)
 		return ;

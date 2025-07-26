@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 02:43:19 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/26 01:46:50 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/26 22:27:28 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,22 @@ static t_vec	get_normal(t_object *obj, const t_vec point)
 	return ((t_vec){0, 0, 0});
 }
 
+void	get_texture_color(t_sphere sphere, t_hit *hit)
+{
+	int		x;
+	int		y;
+	char	*pixel;
+
+	x = (int)((atan2(hit->normal.z, hit->normal.x) + M_PI)
+			/ (2 * M_PI) * (sphere.texture.width - 1));
+	y = (int)(acos(hit->normal.y) / M_PI * (sphere.texture.height - 1));
+	pixel = sphere.texture.addr + y * sphere.texture.line_length
+		+ x * (sphere.texture.bits_per_pixel / 8);
+	hit->color.red = (unsigned char)pixel[2] / 255.0;
+	hit->color.green = (unsigned char)pixel[1] / 255.0;
+	hit->color.blue = (unsigned char)pixel[0] / 255.0;
+}
+
 void	set_hit_values(t_hit *hit, t_rgb color,
 	t_object *figure, t_vec point)
 {
@@ -63,6 +79,8 @@ void	set_hit_values(t_hit *hit, t_rgb color,
 	hit->normal = get_normal(figure, point);
 	if (figure->type == CYLINDER && figure->variant.cylinder.board_mode)
 		get_cy_color(&(figure->variant.cylinder), hit);
+	else if (figure->type == SPHERE && figure->variant.sphere.bump_mump)
+		get_texture_color(figure->variant.sphere, hit);
 	else
 	{
 		hit->color.red = color.red;
