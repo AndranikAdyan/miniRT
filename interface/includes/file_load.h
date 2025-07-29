@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bump_map.h                                         :+:      :+:    :+:   */
+/*   file_load.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/26 21:18:53 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/26 21:20:40 by aadyan           ###   ########.fr       */
+/*   Created: 2025/07/29 21:10:17 by saslanya          #+#    #+#             */
+/*   Updated: 2025/07/29 21:12:33 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUMP_MAP_H
-# define BUMP_MAP_H
+#ifndef FILE_LOAD_H
+# define FILE_LOAD_H
 
-# include "scene.h"
+# include "mlx_config.h"
 
-bool	load_texture(void *mlx, char *path, t_texture *texture);
+bool	is_valid_f(const char *fname);
+bool	validation(int argc, char **argv);
+void	init_textures(t_mlx *mlx, const char *fname);
 
 #endif

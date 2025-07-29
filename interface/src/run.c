@@ -1,45 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   timer.c                                            :+:      :+:    :+:   */
+/*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/20 13:34:23 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/26 22:10:40 by aadyan           ###   ########.fr       */
+/*   Created: 2025/07/29 21:02:59 by saslanya          #+#    #+#             */
+/*   Updated: 2025/07/29 22:01:44 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
-#include <sys/time.h>
+#include "file_load.h"
 
-bool	is_valid_f(const char *fname)
-{
-	const char	*iter;
-
-	iter = ft_strrchr(fname, '.');
-	if (iter && !ft_strncmp(iter, FFORMAT, FSIZE))
-		return (true);
-	else
-		return (false);
-}
-
-bool	validation(int argc, char **argv)
-{
-	if (argc != 2)
-	{
-		printf("Usage: %s <scene_file.rt>\n", argv[0]);
-		return (false);
-	}
-	if (!is_valid_f(argv[1]))
-	{
-		printf("Invalid file format. Expected .rt file.\n");
-		return (false);
-	}
-	return (true);
-}
-
-static bool	multi_rendering(t_mlx *mlx, int i)
+bool	multi_rendering(t_mlx *mlx, int i)
 {
 	t_render_threads	*threads;
 
@@ -52,7 +25,7 @@ static bool	multi_rendering(t_mlx *mlx, int i)
 		threads[i].col_start = 0;
 		threads[i].col_end = WIN_WEIGHT;
 		threads[i].row_start = i * WIN_HEIGHT / THREADS_SIZE;
-		if (i == THREADS_SIZE -1)
+		if (i == THREADS_SIZE - 1)
 			threads[i].row_end = WIN_HEIGHT;
 		else
 			threads[i].row_end = (i + 1) * WIN_HEIGHT / THREADS_SIZE;
@@ -68,7 +41,25 @@ static bool	multi_rendering(t_mlx *mlx, int i)
 	return (free(threads), true);
 }
 
-void	init_textures(t_mlx *mlx)
+static void	hooks(t_mlx *mlx)
+{
+	mlx_hook(mlx->window, 2, 1L << 0, keys_handle, mlx);
+	mlx_hook(mlx->window, 17, 0, free_mlx, mlx);
+	mlx_mouse_hook(mlx->window, mouse_click, mlx);
+}
+
+static bool	load_texture(void *mlx, const char *path, t_texture *texture)
+{
+	texture->img = mlx_xpm_file_to_image(mlx, (char *)path,
+			&texture->width, &texture->height);
+	if (!texture->img)
+		return (false);
+	texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel,
+			&texture->line_length, &texture->endian);
+	return (true);
+}
+
+void	init_textures(t_mlx *mlx, const char *fname)
 {
 	t_list	*iter;
 
@@ -77,9 +68,10 @@ void	init_textures(t_mlx *mlx)
 	{
 		if (((t_object *)iter->content)->type == SPHERE)
 		{
-			((t_object *)iter->content)->variant.sphere.bump_mump = true;
-			load_texture(mlx->mlx, "./maps/textures/earth.xpm",
-				&((t_object *)iter->content)->variant.sphere.texture);
+			((t_object *)iter->content)->variant.sphere.bump_mode = false;
+			((t_object *)iter->content)->variant.sphere.texture.is_valid
+				= load_texture(mlx->mlx, fname,
+					&((t_object *)iter->content)->variant.sphere.texture);
 		}
 		iter = iter->next;
 	}
@@ -88,25 +80,18 @@ void	init_textures(t_mlx *mlx)
 int	main(int argc, char **argv)
 {
 	t_mlx			*mlx;
-	struct timeval	start;
-	struct timeval	end;
-	long			elapsed_ms;
 
-	gettimeofday(&start, NULL);
 	if (!validation(argc, argv))
-		return (1);
+		return (EXIT_FAILURE);
 	mlx = init_mlx(argv);
-	init_textures(mlx);
+	if (argc == 3)
+		init_textures(mlx, argv[2]);
 	if (!mlx)
-		return (1);
+		return (EXIT_FAILURE);
 	hooks(mlx);
 	if (multi_rendering(mlx, -1))
 		mlx_put_image_to_window(mlx->mlx, mlx->window,
 			mlx->img_data->img, 0, 0);
-	gettimeofday(&end, NULL);
-	elapsed_ms = (end.tv_sec - start.tv_sec) * 1000
-		+ (end.tv_usec - start.tv_usec) / 1000;
-	printf("Rendering done in %ld ms\n", elapsed_ms);
 	mlx_loop(mlx->mlx);
-	return (0);
+	return (EXIT_SUCCESS);
 }

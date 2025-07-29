@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:07 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/26 01:43:37 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/29 22:00:06 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 # define INTERSECTION_H
 
 # include <pthread.h>
-# include "miniRT.h"
+# include "mlx.h"
 # include "scene.h"
 # include "ray.h"
-# include "miniRT.h"
 # include "light.h"
 
 # define BACKGORUND_COLOR 0x000000
+
+typedef struct s_mlx	t_mlx;
 
 typedef struct s_hit
 {

@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.h                                           :+:      :+:    :+:   */
+/*   mlx_config.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 18:23:52 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/20 13:31:35 by aadyan           ###   ########.fr       */
+/*   Created: 2025/07/29 20:30:26 by saslanya          #+#    #+#             */
+/*   Updated: 2025/07/29 22:03:16 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef MLX_CONFIG_H
+# define MLX_CONFIG_H
+
+# include <stdbool.h>
+# include <X11/keysym.h>
+# include "mlx.h"
+# include "scene.h"           // для t_scene
+# include "intersection.h"    
 
 # define WIN_WEIGHT 1080
 # define WIN_HEIGHT 720
 # define THREADS_SIZE 4 // 16 is more stable and faster
-# define _USE_MATH_DEFINES
-
-# include <unistd.h>
-# include <stdlib.h>
-# include <math.h>
-# include "mlx.h"
-# include "mlx_initialization.h"
-# include "hooks.h"
-# include "scene.h"
-# include "ray.h"
-# include "intersection.h"
 
 typedef struct s_data
 {
@@ -39,10 +34,16 @@ typedef struct s_data
 
 typedef struct s_mlx
 {
-	void	*mlx;
-	void	*window;
-	t_data	*img_data;
-	t_scene	*scene;
+	void		*mlx;
+	void		*window;
+	t_data		*img_data;
+	t_scene		*scene;
 }	t_mlx;
+
+t_mlx	*init_mlx(char **argv);
+int		free_mlx(t_mlx *mlx);
+int		keys_handle(int keycode, t_mlx *mlx);
+int		mouse_click(int button, int x, int y, void *param);
+bool	multi_rendering(t_mlx *mlx, int i);
 
 #endif

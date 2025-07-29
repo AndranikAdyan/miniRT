@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:16:39 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/26 22:31:27 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/29 21:57:39 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 typedef struct s_texture
 {
+	bool	is_valid;
 	void	*img;
 	char	*addr;
 	int		width;
@@ -69,7 +70,7 @@ typedef struct s_sphere
 {
 	t_vec		pos;
 	double		diameter;
-	int			bump_mump;
+	int			bump_mode;
 	t_rgb		color;
 	t_texture	texture;
 }	t_sphere;

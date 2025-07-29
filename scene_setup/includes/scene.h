@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:35:18 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/26 22:25:57 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/29 21:40:57 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include "scene_types.h"
 # include "get_next_line.h"
 # include "vectors_formulas.h"
-# include "bump_map.h"
 
 # define FFORMAT ".rt"
 # define FSIZE 4

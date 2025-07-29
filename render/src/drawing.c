@@ -79,7 +79,7 @@ void	set_hit_values(t_hit *hit, t_rgb color,
 	hit->normal = get_normal(figure, point);
 	if (figure->type == CYLINDER && figure->variant.cylinder.board_mode)
 		get_cy_color(&(figure->variant.cylinder), hit);
-	else if (figure->type == SPHERE && figure->variant.sphere.bump_mump)
+	else if (figure->type == SPHERE && figure->variant.sphere.bump_mode)
 		get_texture_color(figure->variant.sphere, hit);
 	else
 	{
