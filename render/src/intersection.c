@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:09 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/30 21:33:04 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/30 23:14:46 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	intersection_with_cylinder(t_scene *scene, t_object *obj,
 			&(obj->variant.cylinder));
 	if (t[0] < t_final || t[1] < t_final)
 		t_final = t[t[0] > t[1]];
-	if (t_final != INFINITY && t_final < hit->distance)
+	if (t_final != INFINITY && t_final < hit->distance && t_final > 0)
 	{
 		hit->distance = t_final;
 		set_hit_values(hit, obj->variant.cylinder.color, obj,

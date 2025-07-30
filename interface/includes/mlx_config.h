@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_config.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:30:26 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/30 22:50:18 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/30 23:21:14 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@
 # define WIN_HEIGHT 720
 # define THREADS_SIZE 4 // 16 is more stable and faster
 # define STEP 0.2
+
+# define PLUS 61
+# define PLUS2 65451
+# define MINUS 45
+# define MINUS2 65453
 
 typedef struct s_data
 {

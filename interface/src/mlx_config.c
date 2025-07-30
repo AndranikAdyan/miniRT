@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_config.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:41:15 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/30 22:55:34 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/30 23:22:58 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ int	keys_handle(int keycode, t_mlx *mlx)
 	cam = mlx->scene->camera;
 	if (keycode == XK_Escape || keycode == XK_q)
 		return (free_mlx(mlx), EXIT_SUCCESS);
-	else if (keycode == XK_plus)
+	else if (keycode == PLUS || keycode == PLUS2)
 		cam->dir.z = fmin(1.0, cam->dir.z + STEP);
-	else if (keycode == XK_minus)
+	else if (keycode == MINUS || keycode == MINUS2)
 		cam->dir.z = fmax(-1.0, cam->dir.z - STEP);
 	else if (keycode == XK_Left)
 		cam->dir.x = fmin(1.0, cam->dir.x + STEP);
