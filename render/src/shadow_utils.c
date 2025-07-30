@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:12:28 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/26 22:28:10 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:23:20 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static double	cone_shadow(t_vec origin, t_vec dir, t_cone *cone)
 	double	t[2];
 	double	val[5];
 
-	v = vec_sub(origin, cone->pos);
+	v = vec_sub(origin, cone->point);
 	val[0] = pow(cone->diameter / cone->height, 2.0);
 	val[1] = dot_product(dir, cone->dir);
 	val[2] = dot_product(v, cone->dir);

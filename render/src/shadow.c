@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:12:50 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/24 02:12:52 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/30 18:26:15 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ double	check_cone_height(t_cone *cone, t_vec origin,
 	double	height;
 
 	point = vec_add(origin, scalar_product(dir, t));
-	height = dot_product(vec_sub(point, cone->pos), cone->dir);
+	height = dot_product(vec_sub(point, cone->point), cone->dir);
 	if (height >= 0.0 && height <= cone->height)
 		return (t);
 	return (INFINITY);
