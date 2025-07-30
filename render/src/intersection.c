@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:09 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/26 22:28:10 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/30 21:33:04 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,30 @@ static void	intersection_with_sphere(t_scene *scene, t_object *obj,
 			t_hit *hit, t_vec cam_dir)
 {
 	t_vec	l;
-	double	vars[3];
-	double	distance;
+	double	vars[4];
 	double	t[2];
 
 	l = vec_sub(scene->camera->pos, obj->variant.sphere.pos);
 	vars[0] = dot_product(cam_dir, cam_dir);
 	vars[1] = 2.0 * dot_product(l, cam_dir);
-	vars[2] = dot_product(l, l)
-		- (obj->variant.sphere.diameter * obj->variant.sphere.diameter);
-	distance = vars[1] * vars[1] - 4 * vars[0] * vars[2];
-	if (distance < 0 || distance >= hit->distance)
+	vars[3] = vars[1] * vars[1] - 4 * vars[0] * (dot_product(l, l)
+			- (obj->variant.sphere.diameter * obj->variant.sphere.diameter));
+	if (vars[3] < 0)
 		return ;
-	t[0] = (-vars[1] - sqrt(distance)) / (2.0 * vars[0]);
-	t[1] = (-vars[1] + sqrt(distance)) / (2.0 * vars[0]);
-	if (t[0] > 0.001 || t[1] > 0.001)
-	{
-		hit->distance = t[(t[1] > 0.001) && (t[1] < t[0])];
-		set_hit_values(hit, obj->variant.sphere.color, obj,
-			vec_add(scene->camera->pos,
-				scalar_product(cam_dir, hit->distance)));
-	}
+	t[0] = (-vars[1] - sqrt(vars[3])) / (2.0 * vars[0]);
+	t[1] = (-vars[1] + sqrt(vars[3])) / (2.0 * vars[0]);
+	if (!(t[0] > 0.001 || t[1] > 0.001))
+		return ;
+	vars[2] = INFINITY;
+	if (t[0] > 0.001)
+		vars[2] = t[0];
+	if (t[1] > 0.001 && t[1] < vars[2])
+		vars[2] = t[1];
+	if (vars[2] >= hit->distance)
+		return ;
+	hit->distance = vars[2];
+	set_hit_values(hit, obj->variant.sphere.color, obj,
+		vec_add(scene->camera->pos, scalar_product(cam_dir, hit->distance)));
 }
 
 static void	intersection_with_plane(t_scene *scene, t_object *obj,
