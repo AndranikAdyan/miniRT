@@ -25,7 +25,7 @@ bool	is_valid_f(const char *fname)
 
 bool	validation(int argc, char **argv)
 {
-	if (argc != 2)
+	if (argc != 2 && argc != 3)
 	{
 		printf("Usage: %s <scene_file.rt>\n", argv[0]);
 		return (false);
