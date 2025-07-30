@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:41:15 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/29 22:02:03 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:18:52 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,44 @@ t_mlx	*init_mlx(char **argv)
 	t_mlx	*mlx;
 	t_scene	*scene;
 
+	scene = ft_calloc(1, sizeof(t_scene));
+	if (!scene)
+		return (perror("Memory allocation failed for scene"), NULL);
+	if (!load_scene(argv[1], scene))
+		return (printf("Failed to load scene.\n"), free_scene(&scene), NULL);
 	mlx = (t_mlx *)ft_calloc(1, sizeof(t_mlx));
 	if (!mlx)
-		return (NULL);
+		return (free_scene(&scene), NULL);
 	mlx->img_data = (t_data *)ft_calloc(1, sizeof(t_data));
 	if (!mlx->img_data)
-		return (free(mlx), NULL);
+		return (free(mlx), free_scene(&scene), NULL);
 	mlx->mlx = mlx_init();
 	mlx->window = mlx_new_window(mlx->mlx, WIN_WEIGHT, WIN_HEIGHT, "MiniRT");
 	mlx->img_data->img = mlx_new_image(mlx->mlx, WIN_WEIGHT, WIN_HEIGHT);
 	mlx->img_data->addr = mlx_get_data_addr(mlx->img_data->img,
 			&mlx->img_data->bits_per_pixel,
 			&mlx->img_data->line_length, &mlx->img_data->endian);
-	scene = ft_calloc(1, sizeof(t_scene));
-	if (!scene)
-		return (perror("Memory allocation failed for scene"),
-			free_mlx(mlx), NULL);
-	if (!load_scene(argv[1], scene))
-		return (printf("Failed to load scene.\n"), free_mlx(mlx), NULL);
 	return (mlx->scene = scene, mlx);
 }
 
 int	free_mlx(t_mlx *mlx)
 {
+	t_list		*iter;
+	t_object	*obj;
+
 	mlx_destroy_image(mlx->mlx, mlx->img_data->img);
 	mlx_destroy_window(mlx->mlx, mlx->window);
+	free(mlx->img_data);
+	iter = mlx->scene->objects;
+	while (iter)
+	{
+		obj = (t_object *)iter->content;
+		if (obj->type == SPHERE && obj->variant.sphere.texture.is_valid)
+			mlx_destroy_image(mlx->mlx, obj->variant.sphere.texture.img);
+		iter = iter->next;
+	}
 	mlx_destroy_display(mlx->mlx);
 	free(mlx->mlx);
-	free(mlx->img_data);
 	free_scene(&mlx->scene);
 	free(mlx);
 	exit(EXIT_SUCCESS);
