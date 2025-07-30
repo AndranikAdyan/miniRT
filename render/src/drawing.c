@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 02:43:19 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/26 22:27:28 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/30 17:52:50 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ static int	get_color(t_scene *scene, double x, double y)
 
 static t_vec	get_normal(t_object *obj, const t_vec point)
 {
-	t_vec	v;
-	t_vec	proj_vec;
+	t_vec	v[2];
 	double	proj;
 
 	if (obj->type == SPHERE)
@@ -46,10 +45,20 @@ static t_vec	get_normal(t_object *obj, const t_vec point)
 		return (normalize(obj->variant.plane.normal));
 	else if (obj->type == CYLINDER)
 	{
-		v = vec_sub(point, obj->variant.cylinder.pos);
-		proj = dot_product(v, obj->variant.cylinder.dir);
-		proj_vec = scalar_product(obj->variant.cylinder.dir, proj);
-		return (normalize(vec_sub(v, proj_vec)));
+		v[0] = vec_sub(point, obj->variant.cylinder.pos);
+		proj = dot_product(v[0], obj->variant.cylinder.dir);
+		v[1] = scalar_product(obj->variant.cylinder.dir, proj);
+		return (normalize(vec_sub(v[0], v[1])));
+	}
+	else if (obj->type == CONE)
+	{
+		proj = vec_length(vec_sub(point, obj->variant.cone.point)) / sqrt(1
+				+ pow(obj->variant.cone.diameter / obj->variant.cone.height,
+					2.0));
+		v[1] = vec_add(obj->variant.cone.point, scalar_product(normalize(
+						vec_sub(obj->variant.cone.pos,
+							obj->variant.cone.point)), proj));
+		return (normalize(vec_sub(point, v[1])));
 	}
 	return ((t_vec){0, 0, 0});
 }
