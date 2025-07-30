@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:30:26 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/29 22:03:16 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/30 22:50:18 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define WIN_WEIGHT 1080
 # define WIN_HEIGHT 720
 # define THREADS_SIZE 4 // 16 is more stable and faster
+# define STEP 0.2
 
 typedef struct s_data
 {

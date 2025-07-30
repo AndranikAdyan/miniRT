@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:41:15 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/30 15:18:52 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/30 22:55:34 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,26 @@ int	mouse_click(int button, int x, int y, void *param)
 
 int	keys_handle(int keycode, t_mlx *mlx)
 {
+	t_camera	*cam;
+
+	cam = mlx->scene->camera;
 	if (keycode == XK_Escape || keycode == XK_q)
-		free_mlx(mlx);
-	return (0);
+		return (free_mlx(mlx), EXIT_SUCCESS);
+	else if (keycode == XK_plus)
+		cam->dir.z = fmin(1.0, cam->dir.z + STEP);
+	else if (keycode == XK_minus)
+		cam->dir.z = fmax(-1.0, cam->dir.z - STEP);
+	else if (keycode == XK_Left)
+		cam->dir.x = fmin(1.0, cam->dir.x + STEP);
+	else if (keycode == XK_Right)
+		cam->dir.x = fmax(-1.0, cam->dir.x - STEP);
+	else if (keycode == XK_Up)
+		cam->dir.y = fmin(1.0, cam->dir.y + STEP);
+	else if (keycode == XK_Down)
+		cam->dir.y = fmax(-1.0, cam->dir.y - STEP);
+	normalize(mlx->scene->camera->dir);
+	if (multi_rendering(mlx, -1))
+		mlx_put_image_to_window(mlx->mlx, mlx->window,
+			mlx->img_data->img, 0, 0);
+	return (EXIT_SUCCESS);
 }
