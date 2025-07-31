@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:08:37 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/26 22:24:27 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/31 14:35:14 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,22 @@
 
 void	free_scene(t_scene **scene)
 {
+	t_list	*iter;
+
 	if (!*scene)
 		return ;
 	free((*scene)->camera);
 	free((*scene)->ambient);
+	if ((*scene)->objects)
+	{
+		iter = (*scene)->objects;
+		while (iter)
+		{
+			if (((t_object *)iter->content)->type == SPHERE)
+				free(((t_object *)iter->content)->variant.sphere.format);
+			iter = iter->next;
+		}
+	}
 	ft_lstclear(&((*scene)->objects), free);
 	ft_lstclear(&((*scene)->lights), free);
 	free(*scene);

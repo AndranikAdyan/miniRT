@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:40:38 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/26 22:28:10 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/31 14:31:05 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ static bool	sphere_config(const char **params, t_object **obj)
 	if ((*obj)->variant.sphere.diameter <= 0.0)
 		return (free(*obj), *obj = NULL, false);
 	(*obj)->type = SPHERE;
+	if (params_count(params + 1) == 4)
+	{
+		(*obj)->variant.sphere.format = ft_strdup(params[4]);
+		if (!(*obj)->variant.sphere.format)
+			return (false);
+	}
 	return (true);
 }
 

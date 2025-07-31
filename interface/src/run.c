@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 21:02:59 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/30 22:45:45 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:43:15 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static bool	load_texture(void *mlx, const char *path, t_texture *texture)
 	return (true);
 }
 
-void	init_textures(t_mlx *mlx, const char *fname)
+void	init_textures(t_mlx *mlx)
 {
 	t_list	*iter;
 
@@ -69,9 +69,11 @@ void	init_textures(t_mlx *mlx, const char *fname)
 		if (((t_object *)iter->content)->type == SPHERE)
 		{
 			((t_object *)iter->content)->variant.sphere.bump_mode = false;
-			((t_object *)iter->content)->variant.sphere.texture.is_valid
-				= load_texture(mlx->mlx, fname,
-					&((t_object *)iter->content)->variant.sphere.texture);
+			if (((t_object *)iter->content)->variant.sphere.format)
+				((t_object *)iter->content)->variant.sphere.texture.is_valid
+					= load_texture(mlx->mlx,
+						((t_object *)iter->content)->variant.sphere.format,
+						&((t_object *)iter->content)->variant.sphere.texture);
 		}
 		iter = iter->next;
 	}
@@ -84,8 +86,7 @@ int	main(int argc, char **argv)
 	if (!validation(argc, argv))
 		return (EXIT_FAILURE);
 	mlx = init_mlx(argv);
-	if (argc == 3)
-		init_textures(mlx, argv[2]);
+	init_textures(mlx);
 	if (!mlx)
 		return (EXIT_FAILURE);
 	hooks(mlx);

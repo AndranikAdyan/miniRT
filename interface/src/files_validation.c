@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 21:07:31 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/29 21:34:42 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:36:07 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	is_valid_f(const char *fname)
 
 bool	validation(int argc, char **argv)
 {
-	if (argc != 2 && argc != 3)
+	if (argc != 2)
 	{
 		printf("Usage: %s <scene_file.rt>\n", argv[0]);
 		return (false);

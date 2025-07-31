@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:16:39 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/29 21:57:39 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:25:59 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_sphere
 	double		diameter;
 	int			bump_mode;
 	t_rgb		color;
+	char		*format;
 	t_texture	texture;
 }	t_sphere;
 

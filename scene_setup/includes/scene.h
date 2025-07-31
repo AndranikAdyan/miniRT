@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:35:18 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/29 21:40:57 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:44:22 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "vectors_formulas.h"
 
 # define FFORMAT ".rt"
+# define XPM_F ".xpm"
+# define XPM_S 5
 # define FSIZE 4
 # define VEC_ARG_SIZE 3
 
@@ -29,6 +31,7 @@
 double	eotf(double val);
 double	oetf(double val);
 int		linear_to_gammaint(t_rgb *color);
+bool	check_xpm(const char *file);
 
 // Validation part
 size_t	params_count(const char **params);

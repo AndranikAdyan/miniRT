@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:46:25 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/23 12:36:39 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:44:47 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,16 @@ double	ft_atof(const char *s)
 	}
 	param[0] *= param[3];
 	return (param[0] / pow(10.0, (int)param[1]));
+}
+
+bool	check_xpm(const char *file)
+{
+	char	*format;
+
+	if (!file)
+		return (false);
+	format = ft_strrchr(file, '.');
+	if (format)
+		return (!ft_strncmp(format, XPM_F, XPM_S));
+	return (false);
 }
