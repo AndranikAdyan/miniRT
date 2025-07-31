@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:30:26 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/30 23:21:14 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/31 21:32:37 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_data
 
 typedef struct s_mlx
 {
+	bool		is_changed;
 	void		*mlx;
 	void		*window;
 	t_data		*img_data;

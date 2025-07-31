@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 21:02:59 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/31 15:55:53 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:00:01 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,21 @@ bool	multi_rendering(t_mlx *mlx, int i)
 	return (free(threads), true);
 }
 
-static void	hooks(t_mlx *mlx)
+static int	update_window(void *param)
 {
-	mlx_hook(mlx->window, 2, 1L << 0, keys_handle, mlx);
-	mlx_hook(mlx->window, 17, 0, free_mlx, mlx);
-	mlx_mouse_hook(mlx->window, mouse_click, mlx);
+	t_mlx	*mlx;
+
+	mlx = (t_mlx *)param;
+	if (mlx->is_changed)
+	{
+		if (multi_rendering(mlx, -1))
+			mlx_put_image_to_window(mlx->mlx, mlx->window,
+				mlx->img_data->img, 0, 0);
+		else
+			return (EXIT_FAILURE);
+		mlx->is_changed = false;
+	}
+	return (EXIT_SUCCESS);
 }
 
 static bool	load_texture(void *mlx, const char *path, t_texture *texture)
@@ -59,7 +69,7 @@ static bool	load_texture(void *mlx, const char *path, t_texture *texture)
 	return (true);
 }
 
-void	init_textures(t_mlx *mlx)
+static void	init_textures(t_mlx *mlx)
 {
 	t_list	*iter;
 
@@ -89,10 +99,11 @@ int	main(int argc, char **argv)
 	if (!mlx)
 		return (EXIT_FAILURE);
 	init_textures(mlx);
-	hooks(mlx);
-	if (multi_rendering(mlx, -1))
-		mlx_put_image_to_window(mlx->mlx, mlx->window,
-			mlx->img_data->img, 0, 0);
+	mlx->is_changed = true;
+	mlx_hook(mlx->window, 2, 1L << 0, keys_handle, mlx);
+	mlx_hook(mlx->window, 17, 0, free_mlx, mlx);
+	mlx_hook(mlx->window, 4, 1L << 2, mouse_click, mlx);
+	mlx_loop_hook(mlx->mlx, update_window, mlx);
 	mlx_loop(mlx->mlx);
 	return (EXIT_SUCCESS);
 }

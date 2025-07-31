@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:41:15 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/30 23:22:58 by aadyan           ###   ########.fr       */
+/*   Updated: 2025/07/31 21:38:54 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,7 @@ int	mouse_click(int button, int x, int y, void *param)
 	if (hit.intersection)
 	{
 		set_mode(&hit);
-		if (multi_rendering(mlx, -1))
-			mlx_put_image_to_window(mlx->mlx, mlx->window,
-				mlx->img_data->img, 0, 0);
+		mlx->is_changed = true;
 	}
 	return ((void)button, 0);
 }
@@ -117,8 +115,6 @@ int	keys_handle(int keycode, t_mlx *mlx)
 	else if (keycode == XK_Down)
 		cam->dir.y = fmax(-1.0, cam->dir.y - STEP);
 	normalize(mlx->scene->camera->dir);
-	if (multi_rendering(mlx, -1))
-		mlx_put_image_to_window(mlx->mlx, mlx->window,
-			mlx->img_data->img, 0, 0);
+	mlx->is_changed = true;
 	return (EXIT_SUCCESS);
 }
