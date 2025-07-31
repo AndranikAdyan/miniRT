@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:40:38 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/31 14:31:05 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/31 16:57:23 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static bool	cone_config(const char **params, t_object **obj)
 		|| !init_vec(params[2], &((*obj)->variant.cone.dir), 0.0, 0.0)
 		|| !init_color(params[5], &((*obj)->variant.cone.color)))
 		return (free(*obj), *obj = NULL, false);
-	(*obj)->variant.cone.diameter = ft_atof(params[3]);
+	(*obj)->variant.cone.diameter = ft_atof(params[3]) / 2;
 	(*obj)->variant.cone.dir = normalize((*obj)->variant.cone.dir);
 	(*obj)->variant.cone.height = ft_atof(params[4]);
 	(*obj)->variant.cone.point = vec_add(
