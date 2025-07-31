@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 21:02:59 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/31 14:43:15 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:55:53 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ int	main(int argc, char **argv)
 	if (!validation(argc, argv))
 		return (EXIT_FAILURE);
 	mlx = init_mlx(argv);
-	init_textures(mlx);
 	if (!mlx)
 		return (EXIT_FAILURE);
+	init_textures(mlx);
 	hooks(mlx);
 	if (multi_rendering(mlx, -1))
 		mlx_put_image_to_window(mlx->mlx, mlx->window,
