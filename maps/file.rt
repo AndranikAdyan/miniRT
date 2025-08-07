@@ -4,8 +4,8 @@ A 0.7 255,255,255
 L 5,5,5 0.6 255,255,255
 L -5,5,5 0.6 255,0,0
 
-sp 0,2,9 4 0,255,255 maps/textures/earth.xpm
-sp 0,0,12 5 0,255,0
+sp 0,2,9 4 0,255,255 maps/textures/earth.xpm maps/textures/earth_bump.xpm
+sp 0,0,12 5 0,255,0 maps/textures/rock_texture.xpm maps/textures/rock_bump.xpm
 sp 2,-2,9 2 255,255,0
 
 pl 0,-5,-15 0,1,0 150,150,150

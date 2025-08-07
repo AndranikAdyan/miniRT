@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:08:37 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/31 14:35:14 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/07 21:06:22 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	free_scene(t_scene **scene)
 		while (iter)
 		{
 			if (((t_object *)iter->content)->type == SPHERE)
+			{
 				free(((t_object *)iter->content)->variant.sphere.format);
+				free(((t_object *)iter->content)->variant.sphere.bformat);
+			}
 			iter = iter->next;
 		}
 	}

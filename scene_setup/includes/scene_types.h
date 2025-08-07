@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:16:39 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/31 14:25:59 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:38:54 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ typedef struct s_sphere
 	int			bump_mode;
 	t_rgb		color;
 	char		*format;
+	char		*bformat;
 	t_texture	texture;
+	t_texture	bump;
 }	t_sphere;
 
 typedef struct s_plane

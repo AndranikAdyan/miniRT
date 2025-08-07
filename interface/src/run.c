@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 21:02:59 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/31 22:00:01 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/07 21:01:37 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,16 @@ static void	init_textures(t_mlx *mlx)
 	{
 		if (((t_object *)iter->content)->type == SPHERE)
 		{
-			((t_object *)iter->content)->variant.sphere.bump_mode = false;
 			if (((t_object *)iter->content)->variant.sphere.format)
 				((t_object *)iter->content)->variant.sphere.texture.is_valid
 					= load_texture(mlx->mlx,
 						((t_object *)iter->content)->variant.sphere.format,
 						&((t_object *)iter->content)->variant.sphere.texture);
+			if (((t_object *)iter->content)->variant.sphere.bformat)
+				((t_object *)iter->content)->variant.sphere.bump.is_valid
+					= load_texture(mlx->mlx,
+						((t_object *)iter->content)->variant.sphere.bformat,
+						&((t_object *)iter->content)->variant.sphere.bump);
 		}
 		iter = iter->next;
 	}

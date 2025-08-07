@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:41:15 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/31 21:38:54 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/07 21:07:28 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	free_mlx(t_mlx *mlx)
 		obj = (t_object *)iter->content;
 		if (obj->type == SPHERE && obj->variant.sphere.texture.is_valid)
 			mlx_destroy_image(mlx->mlx, obj->variant.sphere.texture.img);
+		if (obj->type == SPHERE && obj->variant.sphere.bump.is_valid)
+			mlx_destroy_image(mlx->mlx, obj->variant.sphere.bump.img);
 		iter = iter->next;
 	}
 	mlx_destroy_display(mlx->mlx);
