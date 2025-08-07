@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 02:43:19 by saslanya          #+#    #+#             */
-/*   Updated: 2025/08/07 14:27:03 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/08 01:09:42 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,20 @@ static t_vec	get_normal(t_object *obj, const t_vec point)
 	return ((t_vec){0, 0, 0});
 }
 
-void	get_texture_color(t_sphere sphere, t_hit *hit)
+static void	get_texture_color(const t_sphere *sphere, t_hit *hit)
 {
-	int		x;
-	int		y;
+	t_vec	p;
 	char	*pixel;
+	double	uv[2];	
+	int		xy[2];
 
-	x = (int)((atan2(hit->normal.z, hit->normal.x) + M_PI)
-			/ (2 * M_PI) * (sphere.texture.width - 1));
-	y = (int)(acos(hit->normal.y) / M_PI * (sphere.texture.height - 1));
-	pixel = sphere.texture.addr + y * sphere.texture.line_length
-		+ x * (sphere.texture.bits_per_pixel / 8);
+	p = normalize(vec_sub(hit->point, sphere->pos));
+	uv[0] = fmax(fmin(0.5 + atan2(p.z, p.x) / (2 * M_PI), 0.99), 0.0);
+	uv[1] = fmax(fmin(0.5 - asin(p.y) / M_PI, 0.99), 0.0);
+	xy[0] = (int)(uv[0] * (sphere->texture.width - 1));
+	xy[1] = (int)(uv[1] * (sphere->texture.height - 1));
+	pixel = sphere->texture.addr + xy[1] * sphere->texture.line_length
+		+ xy[0] * (sphere->texture.bits_per_pixel / 8);
 	hit->color.red = (unsigned char)pixel[2] / 255.0;
 	hit->color.green = (unsigned char)pixel[1] / 255.0;
 	hit->color.blue = (unsigned char)pixel[0] / 255.0;
@@ -89,7 +92,7 @@ void	set_hit_values(t_hit *hit, t_rgb color,
 	if (figure->type == CYLINDER && figure->variant.cylinder.board_mode)
 		get_cy_color(&(figure->variant.cylinder), hit);
 	else if (figure->type == SPHERE && figure->variant.sphere.bump_mode)
-		get_texture_color(figure->variant.sphere, hit);
+		get_texture_color(&(figure->variant.sphere), hit);
 	else
 	{
 		hit->color.red = color.red;
