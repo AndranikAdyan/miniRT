@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 02:43:19 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/30 18:37:10 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:27:03 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_vec	get_normal(t_object *obj, const t_vec point)
 	double	proj;
 
 	if (obj->type == SPHERE)
-		return (normalize(vec_sub(point, obj->variant.sphere.pos)));
+		return (sphere_normalize(&(obj->variant.sphere), &point));
 	else if (obj->type == PLANE)
 		return (normalize(obj->variant.plane.normal));
 	else if (obj->type == CYLINDER)

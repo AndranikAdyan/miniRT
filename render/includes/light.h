@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:02:42 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/24 02:08:47 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:52:35 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_light_config
 	double	spec_intensity;
 }	t_light_config;
 
+t_vec	sphere_normalize(t_sphere *sphere, const t_vec *hit_point);
 double	check_cone_height(t_cone *cone, t_vec origin,
 			t_vec dir, double t);
 double	check_height_shadow(t_cylinder *cy, t_vec origin,

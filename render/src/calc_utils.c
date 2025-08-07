@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cn_calcs.c                                         :+:      :+:    :+:   */
+/*   calc_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/26 00:58:40 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/26 22:28:10 by aadyan           ###   ########.fr       */
+/*   Created: 2025/08/07 14:53:18 by saslanya          #+#    #+#             */
+/*   Updated: 2025/08/07 14:53:21 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,49 @@ double	cone_short_distance(t_vec ray_dir, t_vec ray_origin,
 		++i;
 	}
 	return (best_t);
+}
+
+static double	get_bump_height(t_texture *tex, double u, double v)
+{
+	t_rgb	color;
+	char	*pixel;
+	int		xy[2];
+
+	xy[0] = (int)(fmod(u, 1.0) * tex->width);
+	xy[1] = (int)(fmod(v, 1.0) * tex->height);
+	if (xy[0] < 0)
+		xy[0] += tex->width;
+	if (xy[1] < 0)
+		xy[1] += tex->height;
+	pixel = tex->addr + xy[1] * tex->line_length
+		+ xy[0] * (tex->bits_per_pixel / 8);
+	color.red = pixel[2] & 0xFF;
+	color.green = pixel[1] & 0xFF;
+	color.blue = pixel[0] & 0xFF;
+	return ((color.red + color.green + color.blue) / (3.0f * 255.0f));
+}
+
+t_vec	sphere_normalize(t_sphere *sphere, const t_vec *hit_point)
+{
+	double	pms[3];
+	t_vec	p;
+	t_vec	vecs[3];
+
+	p = normalize(vec_sub(*hit_point, sphere->pos));
+	if (!sphere->bump_mode || !sphere->texture.is_valid)
+		return (p);
+	pms[0] = fmax(fmin(0.5 + atan2(p.z, p.x) / (2 * M_PI), 0.99), 0.0);
+	pms[1] = fmax(fmin(0.5 - asin(p.y) / M_PI, 0.99), 0.0);
+	pms[2] = get_bump_height(&sphere->texture, pms[0], pms[1]);
+	vecs[0].x = -sin(2 * M_PI * pms[0]);
+	vecs[0].y = 0;
+	vecs[0].z = cos(2 * M_PI * pms[0]);
+	vecs[0] = normalize(vecs[0]);
+	vecs[1] = normalize(cross_product(vecs[0], p));
+	vecs[2] = vec_add(p, vec_add(scalar_product(vecs[0], (get_bump_height
+						(&sphere->texture, pms[0] + 0.005, pms[1])
+						- pms[2]) * 0.2), scalar_product(vecs[1],
+					(get_bump_height(&sphere->texture, pms[0], pms[1] + 0.005)
+						- pms[2]) * 0.2)));
+	return (normalize(vecs[2]));
 }
