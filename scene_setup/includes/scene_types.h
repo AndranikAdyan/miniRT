@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:16:39 by saslanya          #+#    #+#             */
-/*   Updated: 2025/08/07 20:38:54 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:25:31 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ typedef struct s_light
 
 typedef struct s_scene
 {
-	t_camera	*camera;
+	t_list		*cameras;
 	t_light		*ambient;
 	t_list		*objects;
 	t_list		*lights;

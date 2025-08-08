@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 00:08:37 by saslanya          #+#    #+#             */
-/*   Updated: 2025/08/07 21:06:22 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:26:04 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_scene(t_scene **scene)
 
 	if (!*scene)
 		return ;
-	free((*scene)->camera);
+	ft_lstclear(&((*scene)->cameras), free);
 	free((*scene)->ambient);
 	if ((*scene)->objects)
 	{
@@ -57,8 +57,11 @@ static bool	add_to_list(t_list **list, void *data)
 static bool	data_addition(const char **params, t_scene *scene
 		, t_light *light, t_object *object)
 {
-	if (**params == CAMERA && !*(*params + 1))
-		return (camera_config(params, &(scene->camera)));
+	t_camera	*camera;
+
+	camera = NULL;
+	if (**params == CAMERA && !*(*params + 1) && camera_config(params, &camera))
+		return (add_to_list(&(scene->cameras), camera));
 	else if (((**params == AMBIENT || **params == LIGHT) && !*(*params + 1))
 		&& (light_config(params, &light)))
 	{

@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:30:26 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/31 21:32:37 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:59:15 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_mlx
 
 t_mlx	*init_mlx(char **argv);
 int		free_mlx(t_mlx *mlx);
+void	camera_swap(t_list **cameras);
 int		keys_handle(int keycode, t_mlx *mlx);
 int		mouse_click(int button, int x, int y, void *param);
 bool	multi_rendering(t_mlx *mlx, int i);

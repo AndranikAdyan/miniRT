@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 21:07:31 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/31 14:36:07 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:58:01 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,14 @@ bool	validation(int argc, char **argv)
 		return (false);
 	}
 	return (true);
+}
+
+void	camera_swap(t_list **cameras)
+{
+	t_list	*temp;
+
+	temp = *cameras;
+	*cameras = (*cameras)->next;
+	temp->next = NULL;
+	ft_lstadd_back(cameras, temp);
 }

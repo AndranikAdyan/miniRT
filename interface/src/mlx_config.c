@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:41:15 by saslanya          #+#    #+#             */
-/*   Updated: 2025/08/07 21:07:28 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:00:58 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,15 @@ int	keys_handle(int keycode, t_mlx *mlx)
 {
 	t_camera	*cam;
 
-	cam = mlx->scene->camera;
+	cam = (t_camera *)mlx->scene->cameras->content;
 	if (keycode == XK_Escape || keycode == XK_q)
 		return (free_mlx(mlx), EXIT_SUCCESS);
+	else if (keycode == XK_x)
+		camera_swap(&(mlx->scene->cameras));
 	else if (keycode == PLUS || keycode == PLUS2)
-		cam->dir.z = fmin(1.0, cam->dir.z + STEP);
+		cam->dir.z = fmin(2.0, cam->dir.z + STEP);
 	else if (keycode == MINUS || keycode == MINUS2)
-		cam->dir.z = fmax(-1.0, cam->dir.z - STEP);
+		cam->dir.z = fmax(-2.0, cam->dir.z - STEP);
 	else if (keycode == XK_Left)
 		cam->dir.x = fmin(1.0, cam->dir.x + STEP);
 	else if (keycode == XK_Right)
@@ -116,7 +118,5 @@ int	keys_handle(int keycode, t_mlx *mlx)
 		cam->dir.y = fmin(1.0, cam->dir.y + STEP);
 	else if (keycode == XK_Down)
 		cam->dir.y = fmax(-1.0, cam->dir.y - STEP);
-	normalize(mlx->scene->camera->dir);
-	mlx->is_changed = true;
-	return (EXIT_SUCCESS);
+	return (normalize(cam->dir), mlx->is_changed = true, EXIT_SUCCESS);
 }

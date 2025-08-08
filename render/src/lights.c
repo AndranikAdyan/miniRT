@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:47:11 by saslanya          #+#    #+#             */
-/*   Updated: 2025/07/30 22:02:13 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:44:54 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	apply_spot_lighting(t_scene *scene, t_hit *hit,
 		light = (t_light *)light_iter->content;
 		if (!shadow(scene, hit->point, light->pos))
 		{
-			set_configs(light, hit, &config,
-				normalize(vec_sub(hit->point, scene->camera->pos)));
+			set_configs(light, hit, &config, normalize(vec_sub(hit->point,
+						((t_camera *)scene->cameras->content)->pos)));
 			hit->color.red += base.red * light->color.red
 				* config.diff_intensity
 				+ light->color.red * config.spec_intensity;

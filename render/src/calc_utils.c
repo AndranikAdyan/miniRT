@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:53:18 by saslanya          #+#    #+#             */
-/*   Updated: 2025/08/08 01:20:21 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/08 12:11:29 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ bool	cone_calculations(t_scene *scene, t_cone *cone,
 
 	vars[0] = cone->diameter / cone->height;
 	vars[0] = vars[0] * vars[0];
-	tmp_vecs[0] = vec_sub(scene->camera->pos, cone->pos);
+	tmp_vecs[0] = vec_sub(((t_camera *)scene->cameras->content)->pos,
+			cone->pos);
 	vars[1] = dot_product(ray, cone->dir);
 	vars[2] = dot_product(tmp_vecs[0], cone->dir);
 	tmp_vecs[1] = vec_sub(ray, scalar_product(cone->dir, vars[1]));

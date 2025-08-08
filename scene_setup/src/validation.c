@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:38:22 by saslanya          #+#    #+#             */
-/*   Updated: 2025/08/07 21:17:49 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/08 12:02:54 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ bool	data_analysis(t_scene *scene)
 	char	status;
 
 	status = 0;
-	if (scene->camera)
+	if (scene->cameras)
 		status |= 1 << 2;
 	if (scene->ambient)
 		status |= 1;
