@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 01:40:38 by saslanya          #+#    #+#             */
-/*   Updated: 2025/08/07 21:05:20 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/09 23:09:55 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static bool	sphere_config(const char **params, t_object **obj)
 				return (false);
 		}
 		(*obj)->variant.sphere.format = ft_strdup(params[4]);
+		(*obj)->variant.sphere.bump_mode = 1;
 		if (!(*obj)->variant.sphere.format)
 			return (false);
 	}
