@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 21:02:59 by saslanya          #+#    #+#             */
-/*   Updated: 2025/08/09 13:45:45 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/09 13:54:00 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	multi_rendering(t_mlx *mlx, int i)
 		if (pthread_create(&threads[i].thread, NULL, draw_frame, &threads[i]))
 		{
 			while (i)
-				pthread_join(threads[i--].thread, NULL);
+				pthread_join(threads[--i].thread, NULL);
 			return (free(threads), false);
 		}
 	}
