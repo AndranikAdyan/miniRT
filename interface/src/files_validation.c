@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_validation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 21:07:31 by saslanya          #+#    #+#             */
-/*   Updated: 2025/08/08 13:58:01 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/10 14:40:02 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	is_valid_f(const char *fname)
 	const char	*iter;
 
 	iter = ft_strrchr(fname, '.');
-	if (iter && !ft_strncmp(iter, FFORMAT, FSIZE))
+	if (iter && ft_strlen(fname) > 3 && !ft_strncmp(iter, FFORMAT, FSIZE))
 		return (true);
 	else
 		return (false);

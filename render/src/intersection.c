@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:09 by aadyan            #+#    #+#             */
-/*   Updated: 2025/08/08 13:51:49 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:59:26 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,30 @@ static void	intersection_with_cone(t_scene *scene, t_object *obj,
 		t_hit *hit, t_vec cam_dir)
 {
 	double	t[2];
+	double	t_base;
 
-	if (!cone_calculations(scene, &(obj->variant.cone), t, cam_dir))
-		return ;
-	t[0] = cone_short_distance(cam_dir,
-			((t_camera *)scene->cameras->content)->pos,
-			&(obj->variant.cone), t);
-	if (t[0] == INFINITY || t[0] > hit->distance)
-		return ;
-	hit->distance = t[0];
-	set_hit_values(hit, obj->variant.cone.color, obj,
-		vec_add(((t_camera *)scene->cameras->content)->pos,
-			scalar_product(cam_dir, hit->distance)));
+	if (cone_calculations(scene, &(obj->variant.cone), t, cam_dir))
+	{
+		t[0] = cone_short_distance(cam_dir,
+				((t_camera *)scene->cameras->content)->pos,
+				&(obj->variant.cone), t);
+		if (t[0] != INFINITY && t[0] < hit->distance)
+		{
+			hit->distance = t[0];
+			set_hit_values(hit, obj->variant.cone.color, obj,
+				vec_add(((t_camera *)scene->cameras->content)->pos,
+					scalar_product(cam_dir, hit->distance)));
+		}
+	}
+	t_base = intersect_cone_base(((t_camera *)scene->cameras->content)->pos,
+			cam_dir, &(obj->variant.cone));
+	if (t_base != INFINITY && t_base < hit->distance)
+	{
+		hit->distance = t_base;
+		set_hit_values(hit, obj->variant.cone.color, obj,
+			vec_add(((t_camera *)scene->cameras->content)->pos,
+				scalar_product(cam_dir, hit->distance)));
+	}
 }
 
 void	intersection_with_object(t_scene *scene,

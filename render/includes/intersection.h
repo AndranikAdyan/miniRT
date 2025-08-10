@@ -6,7 +6,7 @@
 /*   By: aadyan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:09:07 by aadyan            #+#    #+#             */
-/*   Updated: 2025/07/29 22:00:06 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/08/10 14:01:08 by aadyan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ bool	cone_calculations(t_scene *scene, t_cone *cone,
 			double *t, t_vec ray);
 double	cone_short_distance(t_vec ray_dir, t_vec ray_origin,
 			t_cone *cone, double t[2]);
+double	intersect_cone_base(t_vec ray_origin,
+			t_vec ray_dir, t_cone *cone);
+
 // cylinder cylinde_utils
 double	get_discriminant(t_vec ray, t_vec oc, t_vec axis, double r);
 double	check_height(t_cylinder *cy, t_vec cam, t_vec ray, double t);
